@@ -1,0 +1,84 @@
+Proyecto: GAST (Gestión y Asignación de Solicitudes de Trabajo)
+	
+Descripción del Proyecto.
+
+GAST es una aplicación web en desarrollo orientada a la gestión y asignación de solicitudes dentro del área de trabajo de una empresa. El sistema permite registrar, asignar, aprobar, hacer seguimiento general a las solicitudes y visualizar estadísticas del proceso. Actualmente, el proyecto se encuentra con el frontend básico desarrollado, a la espera de continuar con las siguientes fases de desarrollo.
+
+Estado Actual del Proyecto.
+
+Hasta el momento se ha desarrollado el frontend del sistema, representando las pantallas de:
+
+₋ Inicio de sesión.
+₋ Menú principal adaptado según roles.
+₋ Registrar, subir avances y generar reportes solicitudes.
+₋ Asignar solicitudes.
+₋ Aprobar solicitudes 
+₋ Módulo de estadísticas.
+₋ Mensaje de proceso exitoso.
+
+El proyecto actualmente cuenta con una estructura visual funcional, pero aún no tiene integración completa con backend o base de datos.
+
+Estructura del Proyecto.
+
+El proyecto está organizado de manera modular para facilitar su mantenimiento y escalabilidad.
+
+GAST/
+│
+├── README.txt
+│
+├── Inicio_sesion.html
+├── Menu_principal.html
+├── Registrar_solicitud.html
+├── Asignar_solicitud.html
+├── Aprobar_solicitud.html
+├── Modulo_estadisticas.html
+├── Mensaje_proceso_exitoso.html
+│
+├── css/
+│   └── Estilos.css
+│
+├── js/
+│   ├── Roles.js
+│   ├── Inicio_sesion.js
+│   ├── Menu_principal.js
+│   ├── Registro_solicitud.js
+│   ├── Aprobar_asignar_solicitud.js
+│   ├── Modulo_estadisticas.js
+│   └── Mensaje_exitoso.js
+│
+└── assets/
+    └── img/
+        ├── Est.png
+        ├── Img_plano.png
+        ├── Img_plano1.png
+        ├── Job.png
+        ├── Logo_gast.png
+        ├── Sp.png
+        └── Spa.png
+
+Descripción de Carpetas.
+
+₋ /css: Contiene el archivo de estilo personalizado.
+₋ /js: Contiene los scripts para interacciones dinámicas.
+₋ /assets: Almacena imágenes y recursos gráficos.
+₋ Archivos HTML: Representan las distintas pantallas del sistema.
+
+Diseño de Interfaz.
+
+El diseño se basa en:
+
+₋ Uso del color azul como identidad visual.
+₋ Tarjetas para navegación funcional.
+₋ Formularios organizados en columnas.
+₋ Botones principales y secundarios diferenciados.
+
+Tecnologías Utilizadas.
+
+₋ HTML
+₋ CSS
+₋ Tailwind CSS
+₋ JavaScript
+₋ Visual Studio Code
+
+Autor
+Maicol David Garcia Aramburo, Estudiante del programa ADSO – SENA.

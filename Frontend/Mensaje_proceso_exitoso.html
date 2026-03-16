@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GAST - Mensaje confirmación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/Estilos.css">
+</head>
+
+<body class="bg-[#F5F5F5] min-h-screen flex flex-col">
+
+  <!-- ENCABEZADO -->
+  <header class="flex justify-between items-center w-full">
+    <div class="bg-[#1E88E5] text-black py-10 px-6 w-[85%]">
+      <h1 id="rolTitulo" class="text-3xl font-bold"></h1>
+    </div>
+
+    <!-- Logo-->
+    <div class="flex items-center space-x-8 pr-6">
+      <h1 class="text-4xl font-bold">GAST</h1>
+      <img src="assets/img/logo-gast.png" class="w-20 h-20 rounded-full object-cover">
+    </div>
+  </header>
+
+  <!-- Caja del mensaje -->
+  <div class="bg-[#E5E5E5] border-4 border-black rounded-2xl w-[90%] h-screen flex justify-center items-center mx-auto">
+  <div class="bg-white border-4 border-[#43A047] rounded-2xl shadow-xl p-8 text-center max-w-md">
+    <div class="text-[#43A047] text-6xl font-bold mb-6">✓ </div>
+    <div class="text-2xl text-black font-bold" >Tu petición se ha realizado con éxito. </div>
+  </div>
+  
+<script type="module" src="js/Mensaje_exitoso.js"></script>
+</body>
+</html>

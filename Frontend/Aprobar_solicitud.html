@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprobar Solicitudes - GAST</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/Estilos.css">
+</head>
+
+<body class="bg-[#F5F5F5] min-h-screen flex flex-col">
+
+<header class="flex justify-between items-center w-full">
+  <div class="bg-[#1E88E5] text-black py-10 px-6 w-[85%]">
+    <h1 id="rolTitulo" class="text-3xl font-bold"></h1>
+  </div>
+  <div class="flex items-center space-x-8 pr-6">
+    <h1 class="text-4xl font-bold">GAST</h1>
+    <img src="assets/img/logo-gast.png" class="w-20 h-20 rounded-full object-cover">
+  </div>
+</header>
+
+<!-- NAVEGACIÓN -->
+  <nav class="bg-[#1E88E5]/25 w-full flex justify-between items-center">
+    <div class="flex space-x-6 text-sm font-medium">
+      <a id="home" href="Menu_principal.html" class="text-black px-5 py-3">Home</a>
+      <a id="solicitudes" href="Registrar_solicitud.html" class="text-black py-3">Solicitudes en curso</a>
+      <a id="aprobar" href="Aprobar_solicitud.html" class="text-black px-5 py-3 bg-[#f5f5f5] font-bold rounded-t-lg">Solicitudes pendientes por aprobar</a>
+      <a id="asignar" href="Asignar_solicitud.html" class="text-black py-3">Solicitudes pendientes por asignar</a>
+      <a id="estadisticas" href="Modulo_estadisticas.html" class="text-black py-3">Estadísticas</a>
+    </div>
+    
+    <!-- Buscador -->
+    <div class="flex items-center space-x-0">
+      <input type="text" placeholder="search" class="rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300">
+      <button class="text-white hover:text-gray-200 px-5">🔍</button>
+    </div>
+  </nav>
+
+<!-- Contenido principal -->
+<main class="flex-1 px-12 py-6 relative">
+
+    <!-- Título -->
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold">Solicitudes pendientes por aprobar</h2>
+      <div class="flex gap-6 mt-2 text-sm text-gray-600">
+      </div>
+    </div>
+
+    <!-- Contenedor listado de solicitudes -->
+    <section class="bg-[#C2C2C2]/25 border-4 border-black rounded-2xl p-6">
+      <div class="grid grid-cols-2 gap-6">
+        
+        <!-- Columna izquierda -->
+        <div class="space-y-10">
+
+          <!-- === SOLICITUD 1 === -->
+          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
+                <span class="text-[#1E88E5] text-sm font-semibold">100%</span> </div>
+              <span class="font-bold text-black">Solicitud 1</span> </div>
+              <button data-detalle="Solicitud 1" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button> </div>
+
+          <!-- === SOLICITUD 2 === -->
+          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
+                <span class="text-[#1E88E5] text-sm font-semibold">100%</span> </div>
+              <span class="font-bold text-black">Solicitud 2</span> </div>
+            <button data-detalle="Solicitud 2" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button> </div>
+
+          <!-- === SOLICITUD 3 === -->
+          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
+                <span class="text-[#1E88E5] text-sm font-semibold">100%</span> </div>
+              <span class="font-bold text-black">Solicitud 3</span> </div>
+            <button data-detalle="Solicitud 3" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button> </div>
+
+          <!-- === SOLICITUD 4 === -->
+          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
+                <span class="text-[#1E88E5] text-sm font-semibold">100%</span> </div>
+              <span class="font-bold text-black">Solicitud 4</span> </div>
+            <button data-detalle="Solicitud 4" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button> </div>
+
+          <!-- === SOLICITUD 5 === -->
+          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
+                <span class="text-[#1E88E5] text-sm font-semibold">100%</span> </div>
+              <span class="font-bold text-black">Solicitud 5</span> </div>
+            <button data-detalle="Solicitud 5" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button> </div>
+          </div>
+         </div>
+       </div>
+    </section>
+
+    <!-- PANEL de solicitud -->
+    <div id="panelDetalle" class="hidden absolute top-20 right-20 w-[45%] bg-[#1E88E5]/30 rounded-2xl shadow-lg p-6 transition-all duration-300">
+      <h2 id="tituloSolicitud" class="font-bold text-lg text-black mb-4">Solicitud # 1</h2>
+      <div class="flex justify-center mb-6"> </div>
+      <button data-cerrar="panelDetalle" class="absolute top-3 right-4 text-black hover:text-red-600 text-2xl font-bold">x</button>
+      <div class="flex flex-col items-center">
+    <img src="assets/img/IMG_PLANO1.png" class="rounded-md shadow-md mb-2 w-[60%]">
+    <p class="text-center text-black font-medium">Solicitud terminada</p>
+  </div>
+
+      <!-- Botones de aprobación -->
+  <div class="mt-6">
+    <p class="text-lg font-semibold text-black mb-2">Aprobar solicitud:</p>
+    <div class="flex items-center gap-4">
+      <button class="bg-white text-black font-semibold px-4 py-1 rounded-xl shadow hover:bg-blue-100 transition"> <a href="Mensaje_proceso_exitoso.html"> SI </a> </button>
+      <span class="text-xl font-semibold text-black">-</span>
+      <button class="bg-white text-black font-semibold px-4 py-1 rounded-xl shadow hover:bg-blue-100 transition"> <a href="Aprobar_solicitud.html"> NO </a> </button>
+    </div>
+  </div>
+</div>
+  
+</main>
+
+<script type="module" src="js/Aprobar-asignar_solicitud.js"></script>
+</body>
+</html>
