@@ -11,17 +11,20 @@
 
 <body class="bg-[#F5F5F5] min-h-screen flex flex-col">
 
-<header class="flex justify-between items-center w-full">
-  <div class="bg-[#1E88E5] text-black py-10 px-6 w-[85%]">
-    <h1 id="rolTitulo" class="text-3xl font-bold"></h1>
-  </div>
-  <div class="flex items-center space-x-8 pr-6">
-    <h1 class="text-4xl font-bold">GAST</h1>
-    <img src="assets/img/logo-gast.png" class="w-20 h-20 rounded-full object-cover">
-  </div>
-</header>
+  <!-- Encabezado -->
+  <header class="flex justify-between items-center w-full">
+    <div class="bg-[#1E88E5] text-black py-10 px-6 w-[85%]">
+      <h1 id="rolTitulo" class="text-3xl font-bold"></h1>
+    </div>
 
-<!-- NAVEGACIÓN -->
+    <!-- Logo -->
+    <div class="flex items-center space-x-8 pr-6">
+      <h1 class="text-4xl font-bold">GAST</h1>
+      <img src="assets/img/logo-gast.png" class="w-20 h-20 rounded-full object-cover">
+    </div>
+  </header>
+
+  <!-- Barra de navegación -->
   <nav class="bg-[#1E88E5]/25 w-full flex justify-between items-center">
     <div class="flex space-x-6 text-sm font-medium">
       <a id="home" href="Menu_principal.html" class="text-black px-5 py-3">Home</a>
@@ -50,56 +53,19 @@
 
     <!-- Contenedor listado de solicitudes -->
     <section class="bg-[#C2C2C2]/25 border-4 border-black rounded-2xl p-6">
-      <div class="grid grid-cols-2 gap-6">
-        
-        <!-- Columna izquierda -->
-        <div class="space-y-10">
+      <div id="listaSolicitudes" class="space-y-10"></div>
 
-          <!-- === SOLICITUD 1 === -->
-          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
-                <span class="text-[#1E88E5] text-sm font-semibold">100%</span> </div>
-              <span class="font-bold text-black">Solicitud 1</span> </div>
-              <button data-detalle="Solicitud 1" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button> </div>
-
-          <!-- === SOLICITUD 2 === -->
-          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
-                <span class="text-[#1E88E5] text-sm font-semibold">100%</span> </div>
-              <span class="font-bold text-black">Solicitud 2</span> </div>
-            <button data-detalle="Solicitud 2" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button> </div>
-
-          <!-- === SOLICITUD 3 === -->
-          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
-                <span class="text-[#1E88E5] text-sm font-semibold">100%</span> </div>
-              <span class="font-bold text-black">Solicitud 3</span> </div>
-            <button data-detalle="Solicitud 3" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button> </div>
-
-          <!-- === SOLICITUD 4 === -->
-          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
-                <span class="text-[#1E88E5] text-sm font-semibold">100%</span> </div>
-              <span class="font-bold text-black">Solicitud 4</span> </div>
-            <button data-detalle="Solicitud 4" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button> </div>
-
-          <!-- === SOLICITUD 5 === -->
-          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
-                <span class="text-[#1E88E5] text-sm font-semibold">100%</span> </div>
-              <span class="font-bold text-black">Solicitud 5</span> </div>
-            <button data-detalle="Solicitud 5" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button> </div>
-          </div>
-         </div>
-       </div>
+    <!-- Plantilla de tarjeta -->
+    <template id="templateSolicitud">
+    <div class="flex justify-between items-center bg-[#1E88E5]/30 px-4 py-3 rounded-2xl">
+    <span class="font-bold nombreSolicitud"></span>
+    <button class="btnAprobar bg-blue-600 text-white px-3 py-1 rounded"> Aprobar
+    </button>
+    </div>
+    </template> 
     </section>
 
-    <!-- PANEL de solicitud -->
+    <!-- Panel de solicitud -->
     <div id="panelDetalle" class="hidden absolute top-20 right-20 w-[45%] bg-[#1E88E5]/30 rounded-2xl shadow-lg p-6 transition-all duration-300">
       <h2 id="tituloSolicitud" class="font-bold text-lg text-black mb-4">Solicitud # 1</h2>
       <div class="flex justify-center mb-6"> </div>
@@ -107,21 +73,21 @@
       <div class="flex flex-col items-center">
     <img src="assets/img/IMG_PLANO1.png" class="rounded-md shadow-md mb-2 w-[60%]">
     <p class="text-center text-black font-medium">Solicitud terminada</p>
-  </div>
+    </div>
 
-      <!-- Botones de aprobación -->
-  <div class="mt-6">
+    <!-- Botones de aprobación -->
+    <div class="mt-6">
     <p class="text-lg font-semibold text-black mb-2">Aprobar solicitud:</p>
     <div class="flex items-center gap-4">
-      <button class="bg-white text-black font-semibold px-4 py-1 rounded-xl shadow hover:bg-blue-100 transition"> <a href="Mensaje_proceso_exitoso.html"> SI </a> </button>
+      <button id="btnSi" class="bg-white text-black font-semibold px-4 py-1 rounded-xl shadow hover:bg-blue-100 transition"> SI </button>
       <span class="text-xl font-semibold text-black">-</span>
-      <button class="bg-white text-black font-semibold px-4 py-1 rounded-xl shadow hover:bg-blue-100 transition"> <a href="Aprobar_solicitud.html"> NO </a> </button>
+      <button id="btnNo" class="bg-white text-black font-semibold px-4 py-1 rounded-xl shadow hover:bg-blue-100 transition"> NO </button>
+    </div>
     </div>
   </div>
-</div>
   
 </main>
 
-<script type="module" src="js/Aprobar-asignar_solicitud.js"></script>
+<script type="module" src="js/Aprobar_solicitud.js"></script>
 </body>
 </html>

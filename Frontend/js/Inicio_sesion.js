@@ -1,12 +1,4 @@
-
 import { guardarRol } from "./Roles.js";
-
-// USUARIOS SIMULADOS //
-const usuarios = [
-  { usuario: "soli", password: "1234", rol: "solicitante" },
-  { usuario: "jefe", password: "1234", rol: "jefe" },
-  { usuario: "colab", password: "1234", rol: "colaborador" }
-];
 
 document.addEventListener("DOMContentLoaded", () => {
   const botones = {
@@ -22,8 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     botones[rol].addEventListener("click", () => {
       rolSeleccionado = rol;
-      Object.values(botones).forEach(btn =>
-        btn.classList.remove("bg-[#1E88E5]")
+      Object.values(botones).forEach(btn => btn.classList.remove("bg-[#1E88E5]")
       );
       botones[rol].classList.add("bg-[#1E88E5]");
     });
@@ -35,32 +26,49 @@ document.addEventListener("DOMContentLoaded", () => {
   const mensajeError = document.getElementById("mensajeError");
 
   form.addEventListener("submit", function (e) {
-
     e.preventDefault();
 
-    const usuarioIngresado = inputUsuario.value.trim();
-    const passwordIngresado = inputPassword.value.trim();
+    const usuario = inputUsuario.value.trim();
+    const password = inputPassword.value.trim();
 
-    const usuarioValido = usuarios.find(u =>
-      u.usuario === usuarioIngresado &&
-      u.password === passwordIngresado
-    );
+    //  Petición al Backend //
+    fetch('http://localhost:3000/api/usuarios/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ usuario, password })
+    })
+    .then(response => response.json())
+    .then(data => {
 
-    if (!usuarioValido) {
-      mensajeError.textContent = "Usuario o contraseña incorrectos";
+      if (data.mensaje !== 'Login exitoso') {
+        mensajeError.textContent = data.mensaje;
+        mensajeError.classList.remove("hidden");
+        return;
+      }
+
+    // Validación del rol en la base de datos //
+      const rolUsuario = data.usuario.rol;
+      if (rolUsuario !== rolSeleccionado) {
+        mensajeError.textContent = "El rol seleccionado no corresponde al usuario";
+        mensajeError.classList.remove("hidden");
+        return;
+      }
+
+    // Inicio de sesión correcto //
+      guardarRol(data.usuario.rol);
+
+       localStorage.setItem("rol", data.usuario.rol);
+       localStorage.setItem("idUsuario", data.usuario.idUsuario);
+       localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
+       window.location.href = "Menu_principal.html";
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      mensajeError.textContent = "Error en el servidor";
       mensajeError.classList.remove("hidden");
-      return;
-    }
-
-    if (usuarioValido.rol !== rolSeleccionado) {
-      mensajeError.textContent = "El rol seleccionado no corresponde al usuario";
-      mensajeError.classList.remove("hidden");
-      return;
-    }
-
-    // Login validado //
-    guardarRol(usuarioValido.rol);
-    localStorage.setItem("usuario", usuarioValido.usuario);
-    window.location.href = "Menu_principal.html";
+    });
   });
 });

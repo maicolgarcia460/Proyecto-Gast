@@ -11,6 +11,7 @@
 
 <body class="bg-[#F5F5F5] min-h-screen flex flex-col">
 
+  <!-- Encabezado -->
 <header class="flex justify-between items-center w-full">
   <div class="bg-[#1E88E5] text-black py-10 px-6 w-[85%]">
     <h1 id="rolTitulo" class="text-3xl font-bold"></h1>
@@ -21,7 +22,7 @@
   </div>
 </header>
 
-<!-- NAVEGACIÓN -->
+  <!-- Barra de navegación -->
   <nav class="bg-[#1E88E5]/25 w-full flex justify-between items-center">
     <div class="flex space-x-6 text-sm font-medium">
       <a id="home" href="Menu_principal.html" class="text-black px-5 py-3">Home</a>
@@ -38,7 +39,7 @@
     </div>
   </nav>
 
-<!-- Contenido principal -->
+  <!-- Contenido principal -->
 <main class="flex-1 px-12 py-6 relative">
 
     <!-- Título -->
@@ -53,116 +54,89 @@
 
     <!-- Contenedor listado de solicitudes -->
     <section class="bg-[#C2C2C2]/25 border-4 border-black rounded-2xl p-6">
-      <div class="grid grid-cols-2 gap-6">
-        
-        <!-- Columna izquierda -->
-        <div class="space-y-10">
+      <div id="listaSolicitudes" class="space-y-4"></div>
 
-          <!-- === SOLICITUD 1 === -->
-          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
-                <span class="text-[#1E88E5] text-sm font-semibold">15%</span> </div>
-              <span class="font-bold text-black">Solicitud 1</span> </div>
-              <button data-menu="menu1" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button>
+    <template id="templateSolicitud">
+      <div class="flex justify-between items-center bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
 
-        <div id="menu1" data-dropdown class="hidden absolute right-0 top-12 bg-white border border-gray-200 rounded-lg shadow-md w-44 z-50">
-           <button data-reporte="Solicitud 1" class="w-full text-left px-4 py-2 hover:bg-[#E3F2FD] text-[#1E88E5]">Generar reporte</button> 
-           <button data-detalle="Solicitud 1" class="w-full text-left px-4 py-2 hover:bg-[#E3F2FD] text-[#1E88E5]">Subir avance</button></div>
-          </div>
+    <!-- Parte izaquierda -->
+      <div class="flex items-center space-x-3">
 
-          <!-- === SOLICITUD 2 === -->
-          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
-                <span class="text-[#1E88E5] text-sm font-semibold">45%</span> </div>
-              <span class="font-bold text-black">Solicitud 2</span> </div>
-            <button data-menu="menu2" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button>
+    <!-- Círculo de porcentaje -->
+      <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
+        <span class="porcentaje text-[#1E88E5] text-sm font-semibold">0%</span>
+      </div>
 
-        <div id="menu2" class="hidden absolute right-0 top-12 bg-white border border-gray-200 rounded-lg shadow-md w-44 z-50">
-              <button data-reporte="Solicitud 2" class="w-full text-left px-4 py-2 hover:bg-[#E3F2FD] text-[#1E88E5]">Generar reporte</button> 
-              <button data-detalle="Solicitud 2" class="w-full text-left px-4 py-2 hover:bg-[#E3F2FD] text-[#1E88E5]">Subir avance</button></div>
-          </div>
+    <!-- Nombre -->
+      <span class="font-bold text-black cursor-pointer nombre-solicitud"></span>
+      
+      </div>
 
-          <!-- === SOLICITUD 3 === -->
-          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
-                <span class="text-[#1E88E5] text-sm font-semibold">60%</span> </div>
-              <span class="font-bold text-black">Solicitud 3</span> </div>
-            <button data-detalle="Solicitud 3" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button>
+    <!-- Parte derecha -->
+    <div class="space-x-2">
+      <button class="btn-editar text-blue-700 font-semibold">Editar</button>
+      <button class="btn-eliminar text-red-600 font-semibold">Eliminar</button>
+      <button class="btn-avance text-green-600 font-semibold" data-detalle> Avance </button>
+      <button class="btn-reporte text-purple-600 font-semibold">Reporte</button>
+    </div>
 
-        <div id="menu3" class="hidden absolute right-0 top-12 bg-white border border-gray-200 rounded-lg shadow-md w-44 z-50">
-              <button data-reporte="Solicitud 3" class="w-full text-left px-4 py-2 hover:bg-[#E3F2FD] text-[#1E88E5]">Generar reporte</button> 
-            <button onclick="mostrarDetalleAvance('Solicitud 3')" class="w-full text-left px-4 py-2 hover:bg-[#E3F2FD] text-[#1E88E5]">Subir avance</button></div>
-          </div>
-
-          <!-- === SOLICITUD 4 === -->
-          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
-                <span class="text-[#1E88E5] text-sm font-semibold">10%</span> </div>
-              <span class="font-bold text-black">Solicitud 4</span> </div>
-            <button data-menu="menu4" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button>
-
-        <div id="menu4" class="hidden absolute right-0 top-12 bg-white border border-gray-200 rounded-lg shadow-md w-44 z-50">
-              <button data-reporte="Solicitud 4" class="w-full text-left px-4 py-2 hover:bg-[#E3F2FD] text-[#1E88E5]">Generar reporte</button> 
-              <button data-detalle="Solicitud 4" class="w-full text-left px-4 py-2 hover:bg-[#E3F2FD] text-[#1E88E5]">Subir avance</button></div>
-          </div>
-
-          <!-- === SOLICITUD 5 === -->
-          <div class="relative flex items-center justify-between bg-[#1E88E5]/30 rounded-2xl px-4 py-3 shadow-sm">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 flex items-center justify-center bg-white border-2 border-[#1E88E5] rounded-full">
-                <span class="text-[#1E88E5] text-sm font-semibold">85%</span> </div>
-              <span class="font-bold text-black">Solicitud 5</span> </div>
-            <button data-menu="menu5" class="text-gray-700 text-lg font-bold focus:outline-none">⋮</button>
-
-        <div id="menu5" class="hidden absolute right-0 top-12 bg-white border border-gray-200 rounded-lg shadow-md w-44 z-50">
-              <button data-reporte="Solicitud 5" class="w-full text-left px-4 py-2 hover:bg-[#E3F2FD] text-[#1E88E5]">Generar reporte</button> 
-              <button data-detalle="Solicitud 5" class="w-full text-left px-4 py-2 hover:bg-[#E3F2FD] text-[#1E88E5]">Subir avance</button></div>
-           </div>
-          </div>
-         </div>
-       </div>
+      </div>
+    </template>
     </section>
 
-  <!-- FORMULARIO -->
-  <section id="formularioSolicitud" class="hidden absolute top-5 left-10 w-[80%] bg-[#E5E5E5] border-4 border-black rounded-2xl p-8 overflow-y-auto shadow-lg">
+  <!-- Panel de detalle -->
+ <section id="detalleSolicitud" class="hidden bg-[#C2C2C2]/25 border-4 border-black rounded-2xl p-6 mt-6">
+ <h2 class="text-2xl font-bold mb-4">Detalle de la solicitud</h2>
+
+  <p><strong>Nombre:</strong> <span id="d_nombre"></span></p>
+  <p><strong>Descripción:</strong> <span id="d_descripcion"></span></p>
+  <p><strong>Área:</strong> <span id="d_area"></span></p>
+  <p><strong>Tipo:</strong> <span id="d_tipo"></span></p>
+  <p><strong>Prioridad:</strong> <span id="d_prioridad"></span></p>
+  <p><strong>Tiempo estimado:</strong> <span id="d_tiempo"></span></p>
+  <p><strong>Fecha entrega:</strong> <span id="d_fecha"></span></p>
+
+  <button id="cerrarDetalle" class="mt-4 bg-red-500 text-white px-4 py-2 rounded"> Cerrar
+  </button>
+
+  <div id="historialAvances" class="mt-4 text-sm text-black"></div>
+ </section>
+
+  <!-- Formulario de registro -->
+ <section id="formularioSolicitud" class="hidden absolute top-5 left-10 w-[80%] bg-[#E5E5E5] border-4 border-black rounded-2xl p-8 overflow-y-auto shadow-lg">
     <h2 class="text-2xl font-bold mb-6">Solicitud #6</h2>
     <div class="grid grid-cols-2 gap-6">
       <div>
-        <label class="font-semibold block mb-1">Fecha*</label>
-        <input type="date" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
+        <label class="font-semibold block mb-1">Fecha de creación*</label>
+        <input id="fecha_creacion" type="date" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
 
         <label class="font-semibold block mb-1 mt-4">Nombre*</label>
-        <input type="text" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
+        <input id="nombre" type="text" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
 
         <label class="font-semibold block mb-1 mt-4">Descripción*</label>
-        <textarea class="w-full rounded-xl bg-[#1E88E5]/30 p-2 h-20"></textarea>
+        <textarea id="descripcion" class="w-full rounded-xl bg-[#1E88E5]/30 p-2 h-20"></textarea>
 
         <label class="font-semibold block mb-1 mt-4">Área*</label>
-        <select class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
-          <option>Seleccione</option> </select>
-
-        <label class="font-semibold block mb-1 mt-4">Solicitante*</label>
-        <select class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
-          <option>Seleccione</option> </select>
+        <input id="area" type="text" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
 
         <label class="font-semibold block mb-1 mt-4">Tipo*</label>
-        <select class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
-          <option>Seleccione</option> </select>
+        <input id="tipo_trabajo" type="text" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
 
         <label class="font-semibold block mb-1 mt-4">Tiempo estimado*</label>
-        <input type="text" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
+        <input id="tiempo_estimado" type="text" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
       </div>
 
       <div>
-        <label class="font-semibold block mb-1">Fecha estimada*</label>
-        <input type="date" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
+        <label class="font-semibold block mb-1">Fecha estimada de entrega*</label>
+        <input id="fecha_de_entrega" type="date" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
 
         <label class="font-semibold block mb-1 mt-4">Prioridad*</label>
-        <input type="text" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
+        <select id="prioridad" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
+          <option value="">Seleccione</option>
+          <option value="Alta">Alta</option>
+          <option value="Media">Media</option>
+          <option value="Baja">Baja</option>
+        </select>
 
         <div class="mt-8 flex items-center space-x-2">
           <i class="fa-solid fa-upload text-2xl"></i>
@@ -171,13 +145,11 @@
 
         <div class="flex space-x-3 mt-8">
           <button id="botoncerrarformulario" class="bg-[#1E88E5] text-white font-bold px-4 py-2 rounded-md shadow hover:bg-[#1565C0]"> Cancelar </button>
-          <button class="bg-[#1E88E5] text-white font-bold px-4 py-2 rounded-md shadow hover:bg-[#1565C0]"> 
-          <a href="Mensaje_proceso_exitoso.html"> Registrar </a> </button>
+          <button id="btnRegistrar" class="bg-[#1E88E5] text-white font-bold px-4 py-2 rounded-md shadow hover:bg-[#1565C0]"> Registrar </button>
         </div>
-
       </div>
     </div>
-  </section>
+ </section>
 
   <!-- Botón agregar -->
   <button id="botonagregar" class="absolute bottom-8 right-8 flex items-center space-x-3 bg-[#1E88E5] hover:bg-[#1565C0] text-white font-bold px-6 py-3 rounded-full shadow-lg transition">
@@ -185,7 +157,7 @@
     <span class="bg-white text-[#1E88E5] rounded-full w-7 h-7 flex items-center justify-center text-lg font-bold">+</span>
   </button>
 
-  <!-- PANEL DE GENERAR REPORTE -->
+  <!-- Panel para generar reporte -->
   <div id="panelReporte" class="hidden absolute right-20 top-20 items-center bg-[#1E88E5]/30 rounded-2xl shadow-lg p-6 w-[45%] transition-all duration-300">
     <div class="flex justify-between items-start">
       <h2 class="font-bold text-lg text-gray-800">Generar reporte:</h2>
@@ -199,57 +171,57 @@
       <span class="text-2xl font-bold text-black">Contenido de la solicitud</span>
     </div>
 
-    <button class="mt-10 bg-white border border-[#1E88E5] text-[#1E88E5] px-4 py-2 rounded-lg hover:bg-[#E3F2FD]"> 
-    <a href="Mensaje_proceso_exitoso.html"> Generar </a> </button>
+    <button id="btnGenerarPDF"
+      class="mt-10 bg-white border border-[#1E88E5] text-[#1E88E5] px-4 py-2 rounded-lg"> Generar
+    </button>
   </div>
 
-  <!-- PANEL de subir avance -->
- <div id="panelDetalle" class="absolute top-20 right-[460px] w-[25%] bg-[#1E88E5]/30 rounded-2xl p-4 shadow-md hidden">
+  <!-- Panel para subir avances -->
+  <div id="panelDetalle" class="absolute top-20 right-[460px] w-[25%] bg-[#1E88E5]/30 rounded-2xl p-4 shadow-md hidden">
   <div class="flex justify-between items-center mb-4">
       <h3 class="font-bold text-lg text-gray-800">Subir Avance:</h3>
       <button data-cerrar="panelDetalle" class="text-gray-600 text-2xl font-bold hover:text-gray-800">&times; </button>
-    </div>
+  </div>
   
-  <!-- SECCIÓN IZQUIERDA -->
+  <!-- Parte izquierda -->
   <div class="flex flex-col items-center text-center w-full">
     <h3 id="tituloSolicitud" class="font-bold text-black mt-2 mb-4 text-base">Solicitud #1</h3>
     <img src="assets/img/JOB.png" class="w-40 ml-6 block mb-6">
     <button id="botonsubiravance" class="bg-white px-5 py-2 rounded-xl shadow font-bold hover:bg-gray-100 transition text-sm">Subir avance</button>
   </div>
 
-  <!-- SECCIÓN DERECHA -->
+  <!-- Parte derecha -->
   <div id="formularioAvance" class=" mt-8 hidden bg-[#C2C2C2]/75 rounded-2xl p-4 w-[70%] border-2 border-black shadow text-center relative mx-auto">
     <button onclick="cerrarFormularioAvance()" class="absolute top-2 right-3 text-black font-bold text-lg hover:text-red-600">×</button>
 
-    <!-- Porcentaje -->
+    <!-- Porcentajes -->
     <label class="font-bold text-black block mb-1 text-sm">Porcentaje del trabajo:</label>
-    <input type="range" min="0" max="100" value="10" class="w-full accent-blue-500 mb-1 cursor-pointer">
-    <div class="flex justify-between text-xs text-black mb-3">
-      <span>0%</span><span>100%</span>
-    </div>
+    <input id="porcentaje" type="range" min="0" max="100" value="10"
+    class="w-full accent-blue-500 mb-1 cursor-pointer">
 
     <!-- Observaciones -->
     <label class="font-bold text-black block mb-1 text-sm">Observaciones:</label>
-    <div class="bg-white rounded-md border border-black w-full h-[55px] mb-3"></div>
+    <textarea id="observaciones"
+    class="bg-white rounded-md border border-black w-full h-[55px] mb-3"></textarea>
 
     <!-- Bloqueos -->
     <label class="font-semibold text-black block mb-1 text-sm">Bloqueos:</label>
     <div class="flex justify-center gap-2 mb-3">
-      <button class="bg-white text-black px-3 py-1 rounded-lg shadow font-semibold text-sm">SI</button>
-      <button class="bg-white text-black px-2 py-1 rounded-lg shadow font-semibold text-sm">NO</button>
+    <button id="btnSi" class="bg-white px-3 py-1 rounded-lg shadow font-semibold text-sm">SI</button>
+    <button id="btnNo" class="bg-white px-2 py-1 rounded-lg shadow font-semibold text-sm">NO</button>
     </div>
 
     <label class="text-xs text-black block mb-1">Cual:</label>
-    <div class="bg-white rounded-md border border-black w-full h-[35px] mb-6"></div>
+    <textarea id="detalleBloqueo" class="bg-white rounded-md border border-black w-full h-[35px] mb-6"></textarea>
 
     <!-- Botones inferiores -->
     <div class="flex justify-between items-center mt-2">
       <button class="flex items-center gap-1 text-black font-bold text-sm">
-        <i class="fa-solid fa-upload"></i>Subir archivo ↑↑↑</button>
-      <button class="bg-white p-1.5 rounded-xl shadow font-bold hover:bg-gray-100 transition text-1xl"> <a href="Mensaje_proceso_exitoso.html"> confirmar </a> </button>
+      <i class="fa-solid fa-upload"></i>Subir archivo ↑↑↑</button>
+      <button id="btnGuardarAvance" class="bg-white p-1.5 rounded-xl shadow font-bold hover:bg-gray-100 transition text-1xl"> Confirmar </button>
     </div>
   </div>
-</div>
+  </div>
 </main>
 
 <script type="module" src="js/Registro_solicitud.js"></script>

@@ -7,12 +7,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/Estilos.css">
-
 </head>
 
 <body class="bg-[#F5F5F5] min-h-screen flex flex-col">
 
-  <!-- ENCABEZADO -->
+  <!-- Encabezado -->
   <header class="flex justify-between items-center w-full">
     <div class="bg-[#1E88E5] text-black py-10 px-6 w-[85%]">
       <h1 id="rolTitulo" class="text-3xl font-bold"></h1>
@@ -24,7 +23,7 @@
     </div>
   </header>
 
-  <!-- NAVEGACIÓN -->
+  <!-- Barra de navegación -->
   <nav class="bg-[#1E88E5]/25 w-full flex justify-between items-center">
     <div class="flex space-x-6 text-sm font-medium">
       <a id="home" href="menu_principal.html" class="text-black px-5 py-3 bg-[#f5f5f5] font-bold rounded-t-lg">Home</a>
@@ -44,7 +43,7 @@
   <main 
    class=" flex flex-1 px-10 py-10 justify-between">
 
-    <!-- Tarjetas -->
+    <!-- Tarjetas del menu -->
     <div class="flex-5 grid grid-cols-3 gap-10 text-center">
     <a id="Tsolicitudes" href="Registrar_solicitud.html" class="block">
       <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
@@ -83,15 +82,12 @@
         <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
         <div class="w-2 h-2 bg-gray-200 rounded-full"></div>
       </div>
-      <button class="bg-[#1E88E5] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#1E88E5]/50 transition absolute bottom-6 right-6 shadow-md">
-      <a href="Inicio_sesion.html"> Cerrar sesión </a>
+      <button id="btnCerrarSesion" class="bg-[#1E88E5] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#1E88E5]/50 transition absolute bottom-6 right-6 shadow-md"> 
+        Cerrar sesión
       </button>
     </div>
-
   </main>
 
-  <!-- JS -->
   <script type="module" src="js/Menu_principal.js"></script>
-
 </body>
 </html>

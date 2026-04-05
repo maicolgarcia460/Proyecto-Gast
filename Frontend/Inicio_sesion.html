@@ -11,16 +11,13 @@
 
 <body class="min-h-screen flex flex-col">
 
-  <!-- Barra superior -->
+  <!-- Barra superior con los roles -->
   <nav class="text-[20px] flex bg-white text-black font-semibold">
-    <button id="solicitante" 
-      class="bg-[#1E88E5] text-black font-bold px-3 py-2 rounded-t-md"> Solicitante
+    <button id="solicitante" class="bg-[#1E88E5] text-black font-bold px-3 py-2 rounded-t-md"> Solicitante
     </button>
-    <button id="jefe"
-      class="font-bold px-3 py-2 rounded-t-md"> Jefe de área
+    <button id="jefe" class="font-bold px-3 py-2 rounded-t-md"> Jefe de área
     </button>
-    <button id="colaborador"
-      class="font-bold px-3 py-2 rounded-t-md"> Colaborador
+    <button id="colaborador" class="font-bold px-3 py-2 rounded-t-md"> Colaborador
     </button>
   </nav>
 
@@ -30,10 +27,9 @@
   </div>
 
   <!-- Contenedor principal -->
-  <main 
-  class="flex flex-col md:flex-row justify-center items-center flex-grow mt-0 px-6 w-full max-w-6xl mx-auto">
+  <main class="flex flex-col md:flex-row justify-center items-center flex-grow mt-0 px-6 w-full max-w-6xl mx-auto">
 
-    <!-- Formulario -->
+    <!-- Formulario de inicio de sesión -->
     <div class="bg-[#F5F5F5] border-4 border-black rounded-2xl p-8 w-full md:w-1/2 max-w-sm text-center shadow-md">
       <h2 class="text-3xl font-bold mb-6 text-gray-600">Iniciar Sesión</h2>
 
@@ -50,8 +46,7 @@
         <button type="submit"
           class="w-full bg-[#1E88E5] text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200"> Ingresar
         </button>
-        <a href="#" class="text-sm text-[#1E88E5] hover:underline block mt-2">
-          ¿Olvidaste la contraseña?
+        <a href="#" class="text-sm text-[#1E88E5] hover:underline block mt-2"> ¿Olvidaste la contraseña?
         </a>
       </form>
     </div>
@@ -63,11 +58,9 @@
     <div class="w-full md:w-1/2">
       <img src="assets\img\logo-gast.png" alt="Logo GAST" class="w-85 h-85 object-contain">
     </div>
-
   </main>
 
-  <!-- JS Login -->
   <script type="module" src="js/Inicio_sesion.js"></script>
-
+  
 </body>
 </html>
