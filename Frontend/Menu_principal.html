@@ -17,6 +17,7 @@
       <h1 id="rolTitulo" class="text-3xl font-bold"></h1>
     </div>
 
+    <!-- Logo-->
     <div class="flex items-center space-x-8 pr-6">
       <h1 class="text-4xl font-bold">GAST</h1>
       <img src="assets/img/logo-gast.png" class="w-20 h-20 rounded-full object-cover">
@@ -32,43 +33,41 @@
       <a id="asignar" href="Asignar_solicitud.html" class="text-black py-3">Solicitudes pendientes por asignar</a>
       <a id="estadisticas" href="Modulo_estadisticas.html" class="text-black py-3">Estadísticas</a>
     </div>
-    
-    <!-- Buscador -->
-    <div class="flex items-center space-x-0">
-      <input type="text" placeholder="search" class="rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300">
-      <button class="text-white hover:text-gray-200 px-5">🔍</button>
-    </div>
   </nav>
 
   <main 
    class=" flex flex-1 px-10 py-10 justify-between">
 
-    <!-- Tarjetas del menu -->
+  <!-- Tarjetas del menu -->
     <div class="flex-5 grid grid-cols-3 gap-10 text-center">
-    <a id="Tsolicitudes" href="Registrar_solicitud.html" class="block">
-      <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
-        <img src="assets/img/SP.png" alt="Solicitudes en curso" class="mx-auto w-40 h-40 mb-20" />
-        <h2 class="font-semibold text-2xl">Solicitudes en curso</h2>
-      </div> </a>
+      <a id="Tsolicitudes" href="Registrar_solicitud.html" class="block">
+        <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
+          <img src="assets/img/SP.png" alt="Solicitudes en curso" class="mx-auto w-40 h-40 mb-20" />
+          <h2 class="font-semibold text-2xl">Solicitudes en curso</h2>
+        </div>
+      </a>
 
-    <a id="Taprobar" href="Aprobar_solicitud.html" class="block">
-      <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
-        <img src="assets/img/SPA.png" class="mx-auto w-40 h-40 mb-20" />
-        <h2 class="font-semibold text-2xl">Solicitudes pendientes por aprobar</h2>
-      </div> </a>
-
-    <a id="Tasignar" href="Asignar_solicitud.html" class="block">
-      <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
-        <img src="assets/img/SPA.png" class="mx-auto w-40 h-40 mb-20" />
-        <h2 class="font-semibold text-2xl">Solicitudes pendientes por asignar</h2>
-      </div> </a>
-
-    <a id="Testadisticas" href="Modulo_estadisticas.html" class="block">
-      <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
-        <img src="assets/img/EST.png" class="mx-auto w-40 h-40 mb-20" />
-        <h2 class="font-semibold text-2xl">Estadísticas</h2>
-      </div>
-    </div> </a>
+      <a id="Taprobar" href="Aprobar_solicitud.html" class="block">
+        <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
+          <img src="assets/img/SPA.png" class="mx-auto w-40 h-40 mb-20" />
+          <h2 class="font-semibold text-2xl">Solicitudes pendientes por aprobar</h2>
+        </div>
+      </a>
+      
+      <a id="Tasignar" href="Asignar_solicitud.html" class="block">
+        <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
+          <img src="assets/img/SPA.png" class="mx-auto w-40 h-40 mb-20" />
+          <h2 class="font-semibold text-2xl">Solicitudes pendientes por asignar</h2>
+        </div>
+      </a>
+      
+      <a id="Testadisticas" href="Modulo_estadisticas.html" class="block">
+        <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
+          <img src="assets/img/EST.png" class="mx-auto w-40 h-40 mb-20" />
+          <h2 class="font-semibold text-2xl">Estadísticas</h2>
+        </div>
+      </a>
+    </div> 
 
     <div class="flex items-center gap-10">
 
@@ -82,12 +81,10 @@
         <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
         <div class="w-2 h-2 bg-gray-200 rounded-full"></div>
       </div>
-      <button id="btnCerrarSesion" class="bg-[#1E88E5] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#1E88E5]/50 transition absolute bottom-6 right-6 shadow-md"> 
-        Cerrar sesión
-      </button>
+      <button id="btnCerrarSesion" class="bg-[#1E88E5] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#1E88E5]/50 transition absolute bottom-6 right-6 shadow-md"> Cerrar sesión </button>
     </div>
   </main>
 
-  <script type="module" src="js/Menu_principal.js"></script>
+<script type="module" src="js/Menu_principal.js"></script>
 </body>
 </html>

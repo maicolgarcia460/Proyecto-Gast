@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GAST - Mensaje confirmación</title>
+  <title>GAST - Mensaje del sistema</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/Estilos.css">
@@ -24,11 +24,22 @@
     </div>
   </header>
 
-  <!-- Tarjeta con el mensaje -->
+  <!-- Contenedor -->
   <div class="bg-[#E5E5E5] border-4 border-black rounded-2xl w-[90%] h-screen flex justify-center items-center mx-auto">
-  <div class="bg-white border-4 border-[#43A047] rounded-2xl shadow-xl p-8 text-center max-w-md">
-    <div class="text-[#43A047] text-6xl font-bold mb-6">✓ </div>
-    <div id="mensajeTexto" class="text-2xl text-black font-bold"></div>
+
+    <!-- Tarjeta del mensaje -->
+    <div id="tarjetaMensaje" class="bg-white border-4 rounded-2xl shadow-2xl p-10 text-center max-w-lg w-[90%] transition-all duration-500">
+
+      <!-- Icono dinámico -->
+      <div id="iconoMensaje" class="text-6xl font-bold mb-6"> ✓ </div>
+
+      <!-- Texto dinámico -->
+      <div id="mensajeTexto" class="text-2xl text-black font-bold mb-4"> </div>
+
+      <!-- Texto secundario -->
+      <div class="text-sm text-gray-500"> Redirigiendo automáticamente... </div>
+
+    </div>
   </div>
   
 <script type="module" src="js/Mensaje_exitoso.js"></script>

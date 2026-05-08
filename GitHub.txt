@@ -1,0 +1,2 @@
+Enlace del repositorio remoto en GitHub.
+https://github.com/maicolgarcia460/Proyecto-Gast.git

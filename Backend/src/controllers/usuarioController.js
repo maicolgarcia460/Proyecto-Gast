@@ -4,8 +4,6 @@ const usuarioModel = require('../models/usuarioModel');
 const login = (req, res) => {
     const { usuario, password } = req.body;
 
-    console.log("DATOS RECIBIDOS:", usuario, password);
-
     usuarioModel.login(usuario, password, (error, results) => {
         if (error) {
             console.log("ERROR SQL:", error);

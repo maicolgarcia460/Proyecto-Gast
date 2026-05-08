@@ -29,39 +29,36 @@ const obtenerPorSolicitud = (idSolicitud, callback) => {
 };
 
 // Colocar solicitudes en estado de revisión al subir un avance de terminado //
-const marcarEnRevision = (idSolicitud, callback) => {
+const marcarEnRevision = (idSolicitud, idSolicitante, idJefe, callback) => {
+
   const sqlEstado = `
         INSERT INTO estado_solicitud (idSolicitud, estado)
         VALUES (?, 'en-revision')
       `;
 
-       db.query(sqlEstado, [idSolicitud], (errEstado, resultEstado) => {
-
+  db.query(sqlEstado, [idSolicitud], (errEstado, resultEstado) => {
+        
     if (errEstado) {
-      console.log("Error cambiando estado:", errEstado);
       return callback(errEstado);
     }
 
-  const sqlAprobacion = `
-        INSERT INTO aprobacion
-        (idSolicitud, idUsuario, nivel_aprobacion, estado, fecha_aprobacion)
-        VALUES
-        (?, ?, 'Solicitante', 'pendiente', NOW()),
-        (?, ?, 'jefe de área', 'pendiente', NOW())
-      `;
+    // Creación de los registros de aprobación //    
+    const sqlAprobacion = `
+          INSERT INTO aprobacion
+          (idSolicitud, idUsuario, nivel_aprobacion, estado, fecha_aprobacion)
+          VALUES
+          (?, ?, 'Solicitante', 'pendiente', NOW()),
+          (?, ?, 'jefe de área', 'pendiente', NOW())
+        `;
 
-       db.query(sqlAprobacion, [idSolicitud, idSolicitud], (errAprobacion, resultAprobacion) => {
-
-      if (errAprobacion) {
-        console.log("Error creando registros de aprobación:", errAprobacion);
-        return callback(errAprobacion);
-      }
-
-      callback(null, {
-        estado: resultEstado,
-        aprobacion: resultAprobacion
+    db.query(sqlAprobacion,[idSolicitud, idSolicitante,idSolicitud, idJefe],
+      (errAprobacion, resultAprobacion) => {
+            
+        if (errAprobacion) {
+          return callback(errAprobacion);
+        }
+        callback(null);
       });
-    });
   });
 };
 

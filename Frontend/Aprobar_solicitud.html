@@ -41,52 +41,51 @@
     </div>
   </nav>
 
-<!-- Contenido principal -->
-<main class="flex-1 px-12 py-6 relative">
+  <!-- Contenido principal -->
+  <main class="flex-1 px-12 py-6 relative">
 
     <!-- Título -->
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-2xl font-bold">Solicitudes pendientes por aprobar</h2>
-      <div class="flex gap-6 mt-2 text-sm text-gray-600">
-      </div>
+      <div class="flex gap-6 mt-2 text-sm text-gray-600"></div>
     </div>
 
     <!-- Contenedor listado de solicitudes -->
     <section class="bg-[#C2C2C2]/25 border-4 border-black rounded-2xl p-6">
-      <div id="listaSolicitudes" class="space-y-10"></div>
+      <div id="listaSolicitudes" class="space-y-4"></div>
 
     <!-- Plantilla de tarjeta -->
-    <template id="templateSolicitud">
-    <div class="flex justify-between items-center bg-[#1E88E5]/30 px-4 py-3 rounded-2xl">
-    <span class="font-bold nombreSolicitud"></span>
-    <button class="btnAprobar bg-blue-600 text-white px-3 py-1 rounded"> Aprobar
-    </button>
-    </div>
-    </template> 
+      <template id="templateSolicitud">
+        <div class="flex justify-between items-center bg-[#1E88E5]/30 px-4 py-3 rounded-2xl">
+          <span class="font-bold nombreSolicitud"></span>
+          <button class="btnAprobar bg-[#E5E5E5] border-2 border-[#1E88E5] px-2 py-1 rounded-lg text-[#1E88E5] font-bold"> Aprobar </button>
+        </div>
+      </template> 
     </section>
 
     <!-- Panel de solicitud -->
-    <div id="panelDetalle" class="hidden absolute top-20 right-20 w-[45%] bg-[#1E88E5]/30 rounded-2xl shadow-lg p-6 transition-all duration-300">
-      <h2 id="tituloSolicitud" class="font-bold text-lg text-black mb-4">Solicitud # 1</h2>
-      <div class="flex justify-center mb-6"> </div>
-      <button data-cerrar="panelDetalle" class="absolute top-3 right-4 text-black hover:text-red-600 text-2xl font-bold">x</button>
-      <div class="flex flex-col items-center">
-    <img src="assets/img/IMG_PLANO1.png" class="rounded-md shadow-md mb-2 w-[60%]">
-    <p class="text-center text-black font-medium">Solicitud terminada</p>
-    </div>
+    <div id="panelDetalle" class="absolute top-40 right-[200px] w-[40%] bg-[#BFD3E6] border-4 border-black rounded-2xl p-6 shadow-md hidden">
+      <button data-cerrar="panelDetalle" class="absolute top-3 right-4 text-black hover:text-red-600 text-2xl font-bold">&times;</button>
+      <h2 id="tituloSolicitud" class="font-bold text-2xl text-black mb-4"></h2>
+      <div class="bg-gray-200 w-full rounded-2xl border-2 border-black shadow-md p-5 text-left space-y-2">
+        <div id="infoAvance" class="text-black text-sm space-y-1"></div>
+      </div>
+
+    <!-- Comentarios -->
+      <label class="font-bold text-black block mt-4 mb-1 text-base">Comentarios:</label>
+      <textarea id="Comentarios" class="bg-white rounded-md border border-black w-full h-[55px] mb-2"></textarea>
 
     <!-- Botones de aprobación -->
-    <div class="mt-6">
-    <p class="text-lg font-semibold text-black mb-2">Aprobar solicitud:</p>
-    <div class="flex items-center gap-4">
-      <button id="btnSi" class="bg-white text-black font-semibold px-4 py-1 rounded-xl shadow hover:bg-blue-100 transition"> SI </button>
-      <span class="text-xl font-semibold text-black">-</span>
-      <button id="btnNo" class="bg-white text-black font-semibold px-4 py-1 rounded-xl shadow hover:bg-blue-100 transition"> NO </button>
+      <div class="mt-2">
+        <p class="text-lg font-semibold text-black mb-2">Aprobar solicitud:</p>
+        <div class="flex items-center gap-4">
+          <button id="btnSi" class="bg-white border-2 border-black text-black font-bold px-4 py-1 rounded-xl shadow hover:bg-[#1E88E5]/30 transition"> SI </button>
+          <span class="text-xl font-bold text-black">-</span>
+          <button id="btnNo" class="bg-white border-2 border-black text-black font-bold px-4 py-1 rounded-xl shadow hover:bg-[#1E88E5]/30 transition"> NO </button>
+        </div>
+      </div>
     </div>
-    </div>
-  </div>
-  
-</main>
+  </main>
 
 <script type="module" src="js/Aprobar_solicitud.js"></script>
 </body>

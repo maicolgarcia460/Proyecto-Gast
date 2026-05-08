@@ -2,7 +2,6 @@ require('./src/config/dataBase');
 
 const express = require('express');
 const cors = require('cors');
-
 const app = express();
 
 app.use(cors());
@@ -27,3 +26,12 @@ app.use('/api/avances', avanceRoutes);
 
 const reporteRoutes = require("./src/routes/reporteRoutes");
 app.use("/api/reportes", reporteRoutes);
+
+const aprobacionRoutes = require('./src/routes/aprobacionRoutes');
+app.use('/api/aprobaciones', aprobacionRoutes);
+
+const estadisticaRoutes = require('./src/routes/estadisticaRoutes');
+app.use('/api/estadisticas', estadisticaRoutes);
+
+const archivoRoutes = require('./src/routes/archivoRoutes');
+app.use('/api/archivos', archivoRoutes);

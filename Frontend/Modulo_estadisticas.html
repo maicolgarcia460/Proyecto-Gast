@@ -34,12 +34,6 @@
       <a id="asignar" href="Asignar_solicitud.html" class="text-black py-3">Solicitudes pendientes por asignar</a>
       <a id="estadisticas" href="Modulo_estadisticas.html" class="text-[black] bg-[#f5f5f5] font-bold px-5 py-3 rounded-t-lg"> Estadísticas </a>
     </div>
-
-    <!-- Buscador -->
-    <div class="flex items-center space-x-0">
-      <input type="text" placeholder="search" class="rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300">
-      <button class="text-white hover:text-gray-200 px-5">🔍</button>
-    </div>
   </nav>
 
   <main class="flex-1 px-12 py-6 relative">
@@ -50,42 +44,55 @@
     </div>
 
   <!-- Contenedor principal -->
-  <section class="bg-[#C2C2C2]/25 border-4 border-black rounded-2xl p-6">
+    <section class="bg-[#C2C2C2]/25 border-4 border-black rounded-2xl p-6">
       <div class="grid grid-cols-3 gap-6 justify-items-center">
 
         <!-- Gráficos -->
         <div data-soporte="Tarj1" class="bg-white p-5 rounded-xl shadow-md border cursor-pointer hover:scale-105 transition">
-          <h2 class="font-bold mb-3 text-center text-black text-1xl">Estados de solicitudes</h2>
-          <canvas id="graficoPastel" width="300" height="200"></canvas>
+          <h2 class="font-bold mb-3 text-center text-black text-1xl">Estado de solicitudes</h2>
+          <canvas id="graficoEstados" width="300" height="200"></canvas>
         </div>
 
         <div data-soporte="Tarj2" class="bg-white p-5 rounded-xl shadow-md border cursor-pointer hover:scale-105 transition">
-          <h2 class="font-bold mb-3 text-center text-black text-1xl">Promedio de entregas</h2>
-          <canvas id="graficoBarras" width="300" height="200"></canvas>
+          <h2 class="font-bold mb-3 text-center text-black text-1xl">Promedio de entregas al mes</h2>
+          <canvas id="graficoPromedioMes" width="400" height="200"></canvas>
         </div>
 
         <div data-soporte="Tarj3" class="bg-white p-5 rounded-xl shadow-md border cursor-pointer hover:scale-105 transition">
           <h2 class="font-bold mb-3 text-center text-black text-1xl">Solicitudes completadas por año</h2>
-          <canvas id="graficoLineas" width="400" height="200"></canvas>
+          <canvas id="graficoPorAnio" width="400" height="200"></canvas>
+        </div>
+
+        <div data-soporte="Tarj4" class="bg-white p-5 rounded-xl shadow-md border cursor-pointer hover:scale-105 transition">
+          <h2 class="font-bold mb-3 text-center text-black text-1xl">Solicitudes por áreas</h2>
+          <canvas id="graficoAreas" width="300" height="200"></canvas>
+        </div>
+
+        <div data-soporte="Tarj5" class="bg-white p-5 rounded-xl shadow-md border cursor-pointer hover:scale-105 transition">
+          <h2 class="font-bold mb-3 text-center text-black text-1xl">Solicitudes por colaboradores</h2>
+          <canvas id="graficoColaboradores" width="400" height="200"></canvas>
+        </div>
+
+        <div data-soporte="Tarj6" class="bg-white p-5 rounded-xl shadow-md border cursor-pointer hover:scale-105 transition">
+          <h2 class="font-bold mb-3 text-center text-black text-1xl">Solicitudes retrasadas por semana</h2>
+          <canvas id="graficoRetrasadas" width="400" height="200"></canvas>
         </div>
       </div>
 
       <!-- contenedor de reporte -->
-      <div id="tarjetaSoporte" class="hidden bg-[#1E88E5]/25 border-2 border-[#1E88E5] rounded-xl p-4 text-center shadow-md mt-10 w-60 mx-auto h-fit">
+      <div id="tarjetaSoporte" class="hidden bg-[#BFD3E6] border-2 border-black rounded-xl p-4 text-center shadow-md mt-10 w-60 mx-auto h-fit">
         <h3 class="text-2xl font-bold text-black mb-3">Generar soporte:</h3>
         <div class="text-left ml-6 text-black">
-          <label class="block mb-1">
+          <label class="block mb-2">
             <input type="radio" name="formato" checked> <b>PDF</b> </label>
-          <label class="block mb-3">
-            <input type="radio" name="formato"> <b>Excel</b> </label>
         </div>
-        <button class="bg-white px-5 py-2 rounded-xl shadow font-bold hover:bg-gray-100"> <a href="Mensaje_proceso_exitoso.html"> Confirmar </a> </button>
+        <button id="btnConfirmar" class="bg-white border-2 border-black px-6 py-2 rounded-xl shadow font-bold hover:bg-[#1E88E5]/30"> Confirmar </button>
       </div>
-    </div>
   </section>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script type="module" src="js/Modulo_estadisticas.js"></script>
 
-</main>
+  </main>
 </body>
-</html>
+</html>|
