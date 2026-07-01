@@ -2,6 +2,7 @@ const EstadisticasModel = require("../models/estadisticaModel");
 
 class EstadisticasController {
 
+  // Controla el grafico de estados de las solicitudes //
   static estados(req, res) {
     EstadisticasModel.obtenerEstados((err, results) => {
       if (err) return res.status(500).json(err);
@@ -9,6 +10,7 @@ class EstadisticasController {
     });
   }
 
+  // Controla el grafico de solicitudes promedio al mes //
   static promedioMes(req, res) {
     EstadisticasModel.promedioEntregasMes((err, results) => {
       if (err) return res.status(500).json(err);
@@ -16,6 +18,7 @@ class EstadisticasController {
     });
   }
 
+  // Controla el grafico de solicitudes por año //
   static porAnio(req, res) {
     EstadisticasModel.completadasPorAnio((err, results) => {
       if (err) return res.status(500).json(err);
@@ -23,6 +26,7 @@ class EstadisticasController {
     });
   }
 
+  // Controla el grafico de solicitudes por area //
   static porArea(req, res) {
     EstadisticasModel.solicitudesPorArea((err, results) => {
       if (err) return res.status(500).json(err);
@@ -30,6 +34,7 @@ class EstadisticasController {
     });
   }
 
+  // Controla el grafico de solicitudes por colaborador //
   static porColaborador(req, res) {
     EstadisticasModel.solicitudesPorColaborador((err, results) => {
       if (err) return res.status(500).json(err);
@@ -37,6 +42,7 @@ class EstadisticasController {
     });
   }
 
+  // Controla el grafico de solicitudes retrasadas por semana//
   static retrasadasSemana(req, res) {
     EstadisticasModel.retrasadasPorSemana((err, results) => {
       if (err) return res.status(500).json(err);
@@ -44,6 +50,7 @@ class EstadisticasController {
     });
   }
 
+  // Registra los reportes en la base de datos //
   static registrarReporte(req, res) {
     const data = req.body;
     EstadisticasModel.registrarReporte(data, (err, result) => {

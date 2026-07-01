@@ -1,0 +1,32 @@
+Post /api/usuarios/login
+Get /api/usuarios/colaboradores
+
+Post /api/solicitudes
+
+Get /api/solicitudes
+Get /api/solicitudes/pendientes
+Get /api/solicitudes/en-revisión
+Get /api/solicitudes/:id
+Get /api/solicitudes/colaborador/:id
+Get /api/solicitudes/solicitante/:idUsuario
+Delete /api/solicitudes/:id
+Put /api/solicitudes/:id
+Post /api/solicitudes/asignar
+
+Post /api/avances
+Get /api/avances/:id
+
+Get /api/reportes/:id
+
+Post /api/aprobaciones/decidir
+
+Get /api/estadisticas/estados
+Get /api/estadisticas/promedio-mes
+Get /api/estadisticas/por-anio
+Get /api/estadisticas/por-area
+Get /api/estadisticas/por-colaborador
+Get /api/estadisticas/retrasadas-semana
+Post /api/estadisticas/registrar
+
+Get /api/archivos/:idSolicitud
+Get /api/archivos/descargar/:nombreGuardado

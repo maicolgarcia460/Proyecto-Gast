@@ -18,6 +18,7 @@ const crear = (data, callback) => {
   ], callback);
 };
 
+// Obtiene avance por solicitud //
 const obtenerPorSolicitud = (idSolicitud, callback) => {
   const sql = `
     SELECT *
@@ -28,7 +29,7 @@ const obtenerPorSolicitud = (idSolicitud, callback) => {
   db.query(sql, [idSolicitud], callback);
 };
 
-// Colocar solicitudes en estado de revisión al subir un avance de terminado //
+// Colocar solicitudes en estado de revisión al subir un avance terminado //
 const marcarEnRevision = (idSolicitud, idSolicitante, idJefe, callback) => {
 
   const sqlEstado = `

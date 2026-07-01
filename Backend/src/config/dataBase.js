@@ -1,3 +1,4 @@
+// Configuración de conexión a MySQL //
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({

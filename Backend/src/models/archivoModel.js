@@ -2,6 +2,7 @@ const db = require("../config/dataBase");
 
 class ArchivoModel {
 
+  // Registro del archivo en la base de datos //
   static crear(data, callback) {
     const sql = `
       INSERT INTO archivo
@@ -18,6 +19,7 @@ class ArchivoModel {
     ], callback);
   }
 
+  // Obtiene el archivo por la solicitud //
   static obtenerPorSolicitud(idSolicitud, callback) {
     const sql = `
       SELECT *
@@ -29,6 +31,7 @@ class ArchivoModel {
     db.query(sql, [idSolicitud], callback);
   }
 
+  // Obtiene el archivo por el nombre //
   static obtenerPorNombre(nombreGuardado, callback) {
   const sql = `
     SELECT *

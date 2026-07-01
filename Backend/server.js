@@ -11,10 +11,12 @@ app.get('/', (req, res) => {
     res.send('Servidor funcionando correctamente');
 });
 
+// Inicio del servidor //
 app.listen(3000, () => {
     console.log('Servidor corriendo en http://localhost:3000');
 });
 
+// Rutas API //
 const usuarioRoutes = require('./src/routes/usuarioRoutes');
 app.use('/api/usuarios', usuarioRoutes);
 

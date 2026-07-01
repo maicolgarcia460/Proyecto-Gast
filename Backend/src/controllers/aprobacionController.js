@@ -1,5 +1,6 @@
 const AprobacionModel = require('../models/aprobacionModel');
 
+// Controla (aprobacion o rechazo) //
 const decidir = (req, res) => {
   const data = req.body;
   
