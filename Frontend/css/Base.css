@@ -1,0 +1,35 @@
+/* Variables globales: colores y radios reutilizados en toda la interfaz. */
+:root {
+  --color-primary: #1e88e5;
+  --color-primary-dark: #1565c0;
+  --color-page: #f5f5f5;
+  --color-panel: #bfd3e6;
+  --color-muted: #e5e5e5;
+  --color-list: rgba(194, 194, 194, .25);
+  --color-text: #111;
+  --radius-sm: .5rem;
+  --radius-lg: 1rem;
+}
+
+/* Normalización básica para que padding y borde se incluyan en el tamaño final. */
+* { box-sizing: border-box; }
+
+/* Configuración visual predeterminada de la página. */
+body { 
+  margin: 0; 
+  min-height: 100vh; 
+  font-family: 'Domine', serif; 
+  color: var(--color-text); 
+  background: var(--color-page); 
+}
+
+/* Los controles de formulario usan la misma fuente que el resto de la interfaz. */
+button, input, select, textarea { font: inherit; }
+
+/* Ajustes de interacción y de imágenes reutilizables. */
+button { cursor: pointer; }
+
+img { 
+  display: block; 
+  max-width: 100%; 
+}

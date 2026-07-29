@@ -9,29 +9,29 @@
   <link rel="stylesheet" href="css/Estilos.css">
 </head>
 
-<body class="bg-[#F5F5F5] min-h-screen flex flex-col">
+<body class="app-body">
 
   <!-- Encabezado -->
-  <header class="flex justify-between items-center w-full">
-    <div class="bg-[#1E88E5] text-black py-10 px-6 w-[85%]">
-      <h1 id="rolTitulo" class="text-3xl font-bold"></h1>
+  <header class="app-header">
+    <div class="app-header__role">
+      <h1 id="rolTitulo" class="app-header__title"></h1>
     </div>
 
     <!-- Logo-->
-    <div class="flex items-center space-x-8 pr-6">
-      <h1 class="text-4xl font-bold">GAST</h1>
-      <img src="assets/img/logo-gast.png" class="w-20 h-20 rounded-full object-cover">
+    <div class="app-brand">
+      <h1 class="app-brand__name">GAST</h1>
+      <img src="assets/img/logo-gast.png" alt="Logo GAST" class="app-brand__logo">
     </div>
   </header>
 
   <!-- Barra de navegación -->
-  <nav class="bg-[#1E88E5]/25 w-full flex justify-between items-center">
-    <div class="flex space-x-6 text-sm font-medium">
-      <a id="home" href="menu_principal.html" class="text-black px-5 py-3 bg-[#f5f5f5] font-bold rounded-t-lg">Home</a>
-      <a id="solicitudes" href="Registrar_solicitud.html" class="text-black py-3">Solicitudes en curso</a>
-      <a id="aprobar" href="Aprobar_solicitud.html" class="text-black py-3">Solicitudes pendientes por aprobar</a>
-      <a id="asignar" href="Asignar_solicitud.html" class="text-black py-3">Solicitudes pendientes por asignar</a>
-      <a id="estadisticas" href="Modulo_estadisticas.html" class="text-black py-3">Estadísticas</a>
+  <nav class="app-nav" aria-label="Navegación principal">
+    <div class="app-nav__links">
+      <a id="home" href="Menu_principal.html" class="app-nav__link app-nav__link--active">Home</a>
+      <a id="solicitudes" href="Registrar_solicitud.html" class="app-nav__link">Solicitudes en curso</a>
+      <a id="aprobar" href="Aprobar_solicitud.html" class="app-nav__link">Solicitudes pendientes por aprobar</a>
+      <a id="asignar" href="Asignar_solicitud.html" class="app-nav__link">Solicitudes pendientes por asignar</a>
+      <a id="estadisticas" href="Modulo_estadisticas.html" class="app-nav__link">Estadísticas</a>
     </div>
   </nav>
 

@@ -6,28 +6,30 @@
   <title>GAST - Iniciar Sesión</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css\Estilos.css">
+  <link rel="stylesheet" href="css/Estilos.css">
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body class="app-body">
 
   <!-- Barra superior con los roles -->
-  <nav class="text-[20px] flex bg-white text-black font-semibold">
-    <button id="solicitante" class="bg-[#1E88E5] text-black font-bold px-3 py-2 rounded-t-md"> Solicitante </button>
-    <button id="jefe" class="font-bold px-3 py-2 rounded-t-md"> Jefe de área </button>
-    <button id="colaborador" class="font-bold px-3 py-2 rounded-t-md"> Colaborador </button>
+  <nav class="login-role-nav" aria-label="Selección de rol">
+    <button id="solicitante" class="login-role-button bg-[#1E88E5]">Solicitante</button>
+    <button id="jefe" class="login-role-button">Jefe de área</button>
+    <button id="colaborador" class="login-role-button">Colaborador</button>
   </nav>
 
   <!-- Franja azul -->
-  <div class="w-full bg-[#1E88E5] flex items-center justify-center m-0 p-0">
-    <h1 class="text-[90px] font-bold text-black ml-[600px] md:mt-20">GAST</h1>
+  <div class="login-hero">
+    <div class="login-hero__content">
+      <h1 class="login-hero__title">GAST</h1>
+    </div>
   </div>
 
   <!-- Contenedor principal -->
-  <main class="flex flex-col md:flex-row justify-center items-center flex-grow mt-0 px-6 w-full max-w-6xl mx-auto">
+  <main class="login-layout">
 
     <!-- Formulario de inicio de sesión -->
-    <div class="bg-[#F5F5F5] border-4 border-black rounded-2xl p-8 w-full md:w-1/2 max-w-sm text-center shadow-md">
+    <div class="login-card">
       <h2 class="text-3xl font-bold mb-6 text-gray-600">Iniciar Sesión</h2>
 
       <form id="formLogin" class="space-y-5">
@@ -46,15 +48,14 @@
     </div>
 
     <!-- Línea divisoria -->
-    <div class="h-[65vh] border-l-4 border-gray-300 ml-[150px] mr-[70px]"></div>
+    <div class="login-divider" aria-hidden="true"></div>
 
     <!-- Logo -->
-    <div class="w-full md:w-1/2">
-      <img src="assets\img\logo-gast.png" alt="Logo GAST" class="w-85 h-85 object-contain">
+    <div class="login-logo-container">
+      <img src="assets/img/logo-gast.png" alt="Logo GAST" class="login-logo">
     </div>
   </main>
 
   <script type="module" src="js/Inicio_sesion.js"></script>
-  
 </body>
 </html>

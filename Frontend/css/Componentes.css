@@ -1,0 +1,401 @@
+/* Estructura general de las vistas autenticadas. */
+.app-body { 
+  display: flex; 
+  flex-direction: column; 
+  min-height: 100vh; 
+}
+
+/* Encabezado: muestra el rol actual y el nombre del sistema. */
+.app-header { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  width: 100%; 
+}
+
+.app-header__role { 
+  width: 85%; 
+  padding: 2.5rem 1.5rem; 
+  background: var(--color-primary); 
+}
+
+.app-header__title { 
+  margin: 0; 
+  font-size: 1.875rem; 
+  font-weight: 700; 
+}
+
+.app-brand { 
+  display: flex; 
+  align-items: center; 
+  gap: 2rem; 
+  padding-right: 1.5rem; 
+}
+
+.app-brand__name { 
+  margin: 0; 
+  font-size: 2.25rem; 
+  font-weight: 700; 
+}
+
+.app-brand__logo { 
+  width: 5rem; 
+  height: 5rem; 
+  object-fit: cover; 
+  border-radius: 9999px; 
+}
+
+/* Navegación principal y buscador. */
+.app-nav { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  width: 100%; background: rgb(30 136 229 / 25%); 
+}
+
+.app-nav__links { 
+  display: flex; 
+  gap: 1.5rem; 
+  align-items: center; 
+  font-size: .875rem; 
+  font-weight: 500; 
+}
+
+.app-nav__link { 
+  padding: .75rem 0; 
+  color: var(--color-text); 
+  text-decoration: none; 
+}
+
+.app-nav__link--padded { 
+  padding-inline: 1.25rem; 
+}
+
+.app-nav__link--active { 
+  padding: .75rem 1.25rem; 
+  font-weight: 700; 
+  background: var(--color-page); 
+  border-radius: .5rem .5rem 0 0; 
+}
+
+.app-search { 
+  display: flex; 
+  align-items: center; 
+}
+
+.app-search__input { 
+  padding: .5rem .75rem; 
+  font-size: .875rem; 
+  border: 0; 
+  border-radius: .25rem; 
+}
+
+.app-search__button { 
+  padding: .5rem 1.25rem; 
+  color: #fff; 
+  background: transparent; 
+  border: 0; 
+}
+
+/* Contenido interno, paneles y elementos repetidos entre módulos. */
+.page-content { 
+  position: relative; 
+  flex: 1; padding: 1.5rem 3rem; 
+}
+
+.page-title { 
+  margin: 0 0 1.5rem; 
+  font-size: 1.5rem; 
+  font-weight: 700; 
+}
+
+.page-heading { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  gap: 1.5rem; 
+  margin-bottom: 1.5rem; 
+}
+
+.page-heading .page-title { margin: 0; }
+
+.request-tabs { 
+  display: flex; 
+  align-items: center; 
+  gap: 1.5rem; 
+  font-size: .875rem; 
+  color: #4b5563; 
+}
+
+.content-panel { 
+  padding: 1.5rem; 
+  background: var(--color-list); 
+  border: 4px solid #000; 
+  border-radius: var(--radius-lg); 
+}
+
+#listaSolicitudes { 
+  margin: 0; 
+  padding: 0; 
+  list-style: none; 
+}
+
+#listaSolicitudes > * { list-style: none; }
+
+.detail-panel { 
+  background: var(--color-panel); 
+  border: 4px solid #000; 
+  border-radius: var(--radius-lg); 
+  box-shadow: 0 4px 6px rgb(0 0 0 / 10%); 
+}
+
+.list-item { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: .75rem 1rem; 
+  background: rgb(30 136 229 / 30%); 
+  border-radius: var(--radius-lg); 
+}
+
+.list-item__action { 
+  margin-left: auto; 
+  flex: 0 0 auto; 
+}
+
+/* organización de botones aprobar y asignar en lista de solicitudes. */
+#listaSolicitudes .list-item { 
+  display: flex; 
+  flex-wrap: nowrap; 
+  width: 100%; 
+}
+
+#listaSolicitudes .list-item__action { 
+  margin-left: auto; 
+}
+
+.request-list-item {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100%;
+  min-height: 4rem;
+  gap: .75rem;
+  padding: .75rem 1rem;
+  background: #a9cbe6;
+  border-radius: .875rem;
+}
+
+.request-list-item > :first-child { 
+  display: flex; 
+  align-items: center; 
+  min-width: 0; 
+}
+
+.request-list-item .nombre-solicitud { 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+}
+
+.request-list-item__actions { 
+  display: flex; 
+  flex: 0 0 auto; 
+  align-items: center; 
+  gap: .625rem; 
+  margin-left: auto; 
+  white-space: nowrap; 
+}
+
+.request-list-item .action-button { 
+  padding: .3rem .55rem; 
+  background: #f5f5f5; 
+}
+
+.action-button { 
+  padding: .25rem .5rem; 
+  font-weight: 700; 
+  color: var(--color-primary); 
+  background: var(--color-muted); 
+  border: 2px solid var(--color-primary); 
+  border-radius: var(--radius-sm); 
+}
+
+.primary-button { 
+  padding: .5rem 1rem; 
+  font-weight: 700; 
+  color: #fff; 
+  background: var(--color-primary); 
+  border: 0; 
+  border-radius: var(--radius-sm); 
+  box-shadow: 0 1px 2px rgb(0 0 0 / 15%); 
+}
+
+.primary-button:hover { background: var(--color-primary-dark); }
+
+.form-control { 
+  width: 100%; 
+  padding: .5rem; 
+  background: rgb(30 136 229 / 30%); 
+  border: 0; 
+  border-radius: .75rem; 
+}
+
+.tab-activa { 
+  font-weight: 700; 
+  color: var(--color-primary); 
+  border-bottom: 2px solid currentColor; 
+}
+
+/* Componentes exclusivos de la pantalla de inicio de sesión. */
+.login-role-nav { 
+  display: flex; 
+  font-size: 1.25rem; 
+  font-weight: 600; 
+  color: #000; 
+  background: #fff; 
+}
+
+.login-role-button { 
+  padding: .5rem .75rem; 
+  font-weight: 700; 
+  background: transparent; 
+  border: 0; 
+  border-radius: .375rem .375rem 0 0; 
+}
+
+.login-hero { 
+  width: 100%; 
+  min-height: 14rem; 
+  background: var(--color-primary); 
+}
+
+.login-hero__content { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  width: 100%; 
+  min-height: inherit; 
+}
+
+.login-hero__title { 
+  margin: 0; 
+  font-size: clamp(3.5rem, 8vw, 5.625rem); 
+  font-weight: 700; 
+  text-align: center; 
+}
+
+.login-layout { 
+  display: grid; 
+  grid-template-columns: minmax(0, 1fr) 4px minmax(0, 1fr); 
+  flex: 1; align-items: center; 
+  width: min(100% - 3rem, 72rem); 
+  margin: 0 auto; 
+  padding: 2rem 0; 
+}
+
+.login-card { 
+  width: min(100%, 25rem); 
+  padding: 2rem; 
+  text-align: center; 
+  background: var(--color-page); 
+  border: 4px solid #000; 
+  border-radius: var(--radius-lg); 
+  box-shadow: 0 4px 6px rgb(0 0 0 / 10%); 
+  transform: translateX(-3rem); 
+}
+
+.login-divider { 
+  width: 4px; 
+  height: 65vh; 
+  background: #d1d5db; 
+}
+
+.login-layout > :first-child, .login-layout > :last-child { justify-self: center; }
+
+.login-logo-container { 
+  display: flex; 
+  grid-column: 3; 
+  align-items: center; 
+  justify-content: center; 
+  width: 100%; 
+  transform: translateX(3rem); 
+}
+
+.login-logo { 
+  width: 30rem; 
+  max-width: none; 
+  object-fit: contain; 
+}
+
+/* Ajustes para contenedores medianos y móviles. */
+@media (max-width: 900px) {
+  .app-header__role { 
+    width: auto; 
+    flex: 1; 
+  }
+
+  .app-brand { 
+    gap: .75rem; 
+    padding-right: .75rem; 
+  }
+  
+  .app-brand__name { font-size: 1.5rem; }
+
+  .app-brand__logo { 
+    width: 3rem; 
+    height: 3rem; 
+  }
+  
+  .app-nav, .app-nav__links { flex-wrap: wrap; }
+  .app-nav__links { gap: .5rem; }
+  .page-content { padding-inline: 1rem; }
+
+  .page-heading { 
+    align-items: flex-start; 
+    flex-direction: column; 
+    gap: .75rem; 
+  }
+
+  .request-tabs { 
+    flex-wrap: wrap; 
+    gap: 1rem; 
+  }
+
+  .request-list-item { 
+    align-items: flex-start !important; 
+    flex-wrap: wrap !important; 
+  }
+
+  .request-list-item__actions { 
+    width: 100%; 
+    flex-wrap: wrap; 
+    margin-left: 0; 
+  }
+
+  .login-hero__content { 
+    display: flex; 
+    justify-content: center; 
+  }
+
+  .login-layout { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 2rem; 
+  }
+
+  .login-card, .login-logo-container { transform: none; }
+
+  .login-logo-container { 
+    display: block; 
+    width: auto; 
+  }
+
+  .login-logo { width: min(100%, 22rem); }
+
+  .login-divider { 
+    width: 70%; 
+    height: 4px; 
+  }
+}
