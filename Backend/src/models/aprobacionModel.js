@@ -1,4 +1,4 @@
-const db = require('../config/dataBase');
+const { ejecutarEnTransaccion } = require('../config/dataBase');
 
 const decidirAprobacion = (data, callback) => {
 
@@ -9,50 +9,35 @@ const decidirAprobacion = (data, callback) => {
     WHERE idSolicitud = ? AND nivel_aprobacion = ?
   `;
 
-  db.query( sqlUpdate,
-    [data.estado, data.comentario || null, data.idSolicitud, data.nivel_aprobacion],
-    (err) => {
-      
-      if (err) return callback(err);
+  ejecutarEnTransaccion(async (conexion) => {
+    await conexion.execute(sqlUpdate, [
+      data.estado,
+      data.comentario || null,
+      data.idSolicitud,
+      data.nivel_aprobacion
+    ]);
 
-      // Verificación de estados //
-      const sqlVerificar = `
-        SELECT estado FROM aprobacion
-        WHERE idSolicitud = ?
-      `;
+    const [results] = await conexion.execute(
+      `SELECT estado FROM aprobacion WHERE idSolicitud = ? FOR UPDATE`,
+      [data.idSolicitud]
+    );
+    const estados = results.map((registro) => registro.estado);
+    let nuevoEstado = null;
 
-      db.query(sqlVerificar, [data.idSolicitud], (err2, results) => {
-
-        if (err2) return callback(err2);
-        const estados = results.map(r => r.estado);
-
-        let nuevoEstado = null;
-
-        // Si alguno rechaza //
-        if (estados.includes("rechazada")) {
-          nuevoEstado = "rechazada";
-        }
-
-        // Si ambos aprueban //
-        else if (estados.length === 2 && estados.every(e => e === "aprobada")) {
-          nuevoEstado = "aprobada";
-        }
-
-        // Si falta uno para aprobar //
-        if (!nuevoEstado) {
-          return callback(null);
-        }
-
-        // Insertar nuevo estado en historial //
-        const sqlEstado = `
-          INSERT INTO estado_solicitud (idSolicitud, estado, fecha_cambio)
-          VALUES (?, ?, NOW())
-        `;
-
-        db.query(sqlEstado, [data.idSolicitud, nuevoEstado], callback);
-      });
+    if (estados.includes("rechazada")) {
+      nuevoEstado = "rechazada";
+    } else if (estados.length === 2 && estados.every((estado) => estado === "aprobada")) {
+      nuevoEstado = "aprobada";
     }
-  );
+
+    if (nuevoEstado) {
+      await conexion.execute(
+        `INSERT INTO estado_solicitud (idSolicitud, estado, fecha_cambio)
+         VALUES (?, ?, NOW())`,
+        [data.idSolicitud, nuevoEstado]
+      );
+    }
+  }).then(() => callback(null)).catch(callback);
 };
 
 module.exports = { decidirAprobacion };

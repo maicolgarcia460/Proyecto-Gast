@@ -50,7 +50,7 @@
   display: flex; 
   align-items: center; 
   justify-content: space-between; 
-  width: 100%; background: rgb(30 136 229 / 25%); 
+  width: 100%; background: rgb(30 136 229 / 35%); 
 }
 
 .app-nav__links { 
@@ -234,6 +234,126 @@
 
 .primary-button:hover { background: var(--color-primary-dark); }
 
+/* Panel principal: tarjetas de acceso y barra lateral. */
+.home-dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 19rem);
+  flex: 1;
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.home-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 40rem));
+  align-content: start;
+  gap: clamp(1.5rem, 2.5vw, 2.5rem);
+}
+
+.home-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 19rem;
+  padding: 2rem;
+  text-align: center;
+  background: rgb(30 136 229 / 35%);
+  border: 1px solid rgb(30 136 229 / 18%);
+  border-radius: 1.25rem;
+  box-shadow: 0 6px 14px rgb(0 0 0 / 10%);
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+.home-card:hover {
+  background: rgb(30 136 229 / 36%);
+  box-shadow: 0 12px 22px rgb(0 0 0 / 14%);
+  transform: translateY(-4px);
+}
+
+.home-card__image {
+  width: min(10rem, 55%);
+  height: 10rem;
+  object-fit: contain;
+}
+
+.home-card__title {
+  margin: 1.5rem 0 0;
+  font-size: clamp(1.2rem, 1.6vw, 1.65rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.home-sidebar {
+  display: grid;
+  grid-template-columns: 2px minmax(0, 1fr);
+  gap: 2rem;
+  min-height: 100%;
+}
+
+.home-sidebar__divider { background: #d1d5db; }
+
+.home-sidebar__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+}
+
+.home-sidebar__image {
+  width: min(100%, 16rem);
+  height: 24rem;
+  object-fit: cover;
+  margin: 4rem 0 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 12%);
+}
+
+.logout-button {
+  margin-top: auto;
+  padding: .6rem 1.25rem;
+  color: #fff;
+  font-weight: 700;
+  background: var(--color-primary);
+  border: 0;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 18%);
+}
+
+.logout-button:hover { background: var(--color-primary-dark); }
+
+.modal-panel {
+  position: fixed;
+  z-index: 40;
+  top: 50%;
+  left: 50%;
+  width: min(92vw, 42rem);
+  max-height: 90vh;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: var(--color-panel);
+  border: 4px solid #000;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 25px rgb(0 0 0 / 20%);
+  transform: translate(-50%, -50%);
+}
+
+.request-form {
+  position: fixed;
+  z-index: 40;
+  top: 50%;
+  left: 50%;
+  width: min(92vw, 65rem);
+  max-height: 90vh;
+  padding: 2rem;
+  overflow-y: auto;
+  background: var(--color-muted);
+  border: 4px solid #000;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 25px rgb(0 0 0 / 20%);
+  transform: translate(-50%, -50%);
+}
+
 .form-control { 
   width: 100%; 
   padding: .5rem; 
@@ -331,6 +451,15 @@
 
 /* Ajustes para contenedores medianos y móviles. */
 @media (max-width: 900px) {
+  .home-dashboard { grid-template-columns: 1fr; }
+  .home-cards { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .home-sidebar { grid-template-columns: 1fr; gap: 1.5rem; }
+  .home-sidebar__divider { width: 70%; height: 2px; margin: 0 auto; }
+  .home-sidebar__content { min-height: auto; }
+  .home-sidebar__image { height: 18rem; margin-top: 0; }
+  .logout-button { margin-top: 1.5rem; }
+  .app-header { align-items: stretch; }
+
   .app-header__role { 
     width: auto; 
     flex: 1; 
@@ -350,6 +479,8 @@
   
   .app-nav, .app-nav__links { flex-wrap: wrap; }
   .app-nav__links { gap: .5rem; }
+  .app-search { width: 100%; padding: .5rem; }
+  .app-search__input { flex: 1; min-width: 0; }
   .page-content { padding-inline: 1rem; }
 
   .page-heading { 
@@ -372,6 +503,16 @@
     width: 100%; 
     flex-wrap: wrap; 
     margin-left: 0; 
+  }
+
+  #listaSolicitudes .list-item {
+    flex-wrap: wrap;
+    gap: .75rem;
+  }
+
+  #listaSolicitudes .list-item__action {
+    width: 100%;
+    margin-left: 0;
   }
 
   .login-hero__content { 
@@ -398,4 +539,17 @@
     width: 70%; 
     height: 4px; 
   }
+
+  .modal-panel, .request-form { padding: 1rem; }
+}
+
+@media (max-width: 560px) {
+  .app-header { flex-direction: column; }
+  .app-header__role { padding: 1rem; }
+  .app-header__title { font-size: 1.25rem; }
+  .app-brand { justify-content: space-between; padding: .75rem 1rem; }
+  .app-nav__link, .app-nav__link--active { padding: .5rem .75rem; }
+  .content-panel { padding: 1rem; border-width: 2px; }
+  .request-tabs { width: 100%; justify-content: space-between; gap: .5rem; }
+  .request-list-item .nombre-solicitud { white-space: normal; }
 }

@@ -1,5 +1,6 @@
 import { mostrarRolEnHeader, aplicarPermisos } from "./Roles.js";
 import { mostrarMensajeSistema } from "./Mensaje_exitoso.js";
+import { apiUrl, leerRespuesta } from "./api.js";
 
 let graficoSeleccionado = null;
 
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  document.getElementById("btnConfirmar").addEventListener("click", async () => {
+  document.getElementById("btnConfirmar")?.addEventListener("click", async () => {
     
     if (!graficoSeleccionado) {
       mostrarMensajeSistema("Selecciona un gráfico primero.", "error");
@@ -80,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const nombreArchivo = `Reporte-${nombreLimpio}-${fechaArchivo}.pdf`;
     pdf.save(nombreArchivo);
     
-    await fetch("http://localhost:3000/api/estadisticas/registrar", {
+    const response = await fetch(apiUrl("/api/estadisticas/registrar"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -90,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tipo_estadistica: titulo
       })
     });
+    await leerRespuesta(response);
     
     mostrarMensajeSistema("Reporte estadístico generado correctamente",
       "exito"
@@ -108,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.drawImage(this, 0, 0);
         resolve(canvas.toDataURL("image/png"));
       };
+      img.onerror = () => resolve(null);
       img.src = url;
     });
   }
@@ -138,8 +141,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function cargarEstados() {
-    const res = await fetch("http://localhost:3000/api/estadisticas/estados");
-    const data = await res.json();
+    const res = await fetch(apiUrl("/api/estadisticas/estados"));
+    const data = await leerRespuesta(res);
     const labels = data.map(item => item.estado);
     const valores = data.map(item => item.total);
     
@@ -161,8 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function cargarPromedioMes() {
-    const res = await fetch("http://localhost:3000/api/estadisticas/promedio-mes");
-    const data = await res.json();
+    const res = await fetch(apiUrl("/api/estadisticas/promedio-mes"));
+    const data = await leerRespuesta(res);
     const mesesTexto = [ "", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"     
     ];
     
@@ -187,8 +190,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function cargarPorAnio() {
-    const res = await fetch("http://localhost:3000/api/estadisticas/por-anio");
-    const data = await res.json();
+    const res = await fetch(apiUrl("/api/estadisticas/por-anio"));
+    const data = await leerRespuesta(res);
     const labels = data.map(item => item.anio);
     const valores = data.map(item => item.total);
 
@@ -211,8 +214,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function cargarPorArea() {
-    const res = await fetch("http://localhost:3000/api/estadisticas/por-area");
-    const data = await res.json();
+    const res = await fetch(apiUrl("/api/estadisticas/por-area"));
+    const data = await leerRespuesta(res);
     const labels = data.map(item => item.area);
     const valores = data.map(item => item.total);
     
@@ -234,8 +237,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function cargarPorColaborador() {
-    const res = await fetch("http://localhost:3000/api/estadisticas/por-colaborador");
-    const data = await res.json();
+    const res = await fetch(apiUrl("/api/estadisticas/por-colaborador"));
+    const data = await leerRespuesta(res);
     const labels = data.map(item => item.usuario);
     const valores = data.map(item => item.total);
 
@@ -257,8 +260,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function cargarRetrasadasSemana() {
-    const res = await fetch("http://localhost:3000/api/estadisticas/retrasadas-semana");
-    const data = await res.json();
+    const res = await fetch(apiUrl("/api/estadisticas/retrasadas-semana"));
+    const data = await leerRespuesta(res);
     const labels = data.map(item => "Semana " + item.semana);
     const valores = data.map(item => item.total);
 

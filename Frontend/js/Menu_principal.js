@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnCerrarSesion = document.getElementById("btnCerrarSesion");
   if (btnCerrarSesion) {
     btnCerrarSesion.addEventListener("click", () => {
-      localStorage.clear();
+      ["rol", "idUsuario", "usuario", "mensaje", "tipoMensaje", "paginaRetorno"].forEach((clave) =>
+        localStorage.removeItem(clave));
       window.location.href = "Inicio_sesion.html";
     });
   }

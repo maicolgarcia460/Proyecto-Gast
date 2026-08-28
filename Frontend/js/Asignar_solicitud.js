@@ -1,5 +1,6 @@
 import { mostrarRolEnHeader, aplicarPermisos } from "./Roles.js";
 import { mostrarMensajeSistema } from "./Mensaje_exitoso.js";
+import { apiUrl, escaparHtml, leerRespuesta } from "./api.js";
 
 let solicitudActual = null;
 let prioridadSeleccionada = null;
@@ -33,8 +34,8 @@ function cargarSolicitudesPendientes() {
 
   // Si es un colaborador //
   if (rol === "colaborador") {
-    fetch(`http://localhost:3000/api/solicitudes/colaborador/${idUsuario}`)
-      .then(res => res.json())
+    fetch(apiUrl(`/api/solicitudes/colaborador/${idUsuario}`))
+      .then(leerRespuesta)
       .then(data => {
 
         data.forEach(solicitud => {
@@ -55,8 +56,8 @@ function cargarSolicitudesPendientes() {
 
   //  Si es el jefe de área //
   else {
-    fetch("http://localhost:3000/api/solicitudes/pendientes")
-      .then(res => res.json())
+    fetch(apiUrl("/api/solicitudes/pendientes"))
+      .then(leerRespuesta)
       .then(data => {
         
         data.forEach(solicitud => {
@@ -76,10 +77,10 @@ function cargarSolicitudesPendientes() {
             
             try {
               const response = await fetch(
-                `http://localhost:3000/api/solicitudes/${solicitud.idSolicitud}`
+                apiUrl(`/api/solicitudes/${solicitud.idSolicitud}`)
               );
               
-              const detalle = await response.json();
+              const detalle = await leerRespuesta(response);
               const titulo = document.getElementById("tituloSolicitud");
               const info = document.getElementById("infoSolicitudAsignar");
               const panel = document.getElementById("panelDetalle");
@@ -88,16 +89,58 @@ function cargarSolicitudesPendientes() {
               `Solicitud #${detalle.idSolicitud} - ${detalle.nombre}`;
               
               info.innerHTML = `
-              <p><b>Descripción:</b> ${detalle.descripcion}</p>
-              <p><b>Área:</b> ${detalle.area}</p>
-              <p><b>Tipo:</b> ${detalle.tipo_trabajo}</p>
-              <p><b>Prioridad:</b> ${detalle.prioridad}</p>
+              <p><b>Descripción:</b> ${escaparHtml(detalle.descripcion)}</p>
+              <p><b>Área:</b> ${escaparHtml(detalle.area)}</p>
+              <p><b>Tipo:</b> ${escaparHtml(detalle.tipo_trabajo)}</p>
+              <p><b>Prioridad:</b> ${escaparHtml(detalle.prioridad)}</p>
               <p><b>Fecha de entrega:</b> ${
                 detalle.fecha_de_entrega
                 ? detalle.fecha_de_entrega.split("T")[0]
                 : "Sin fecha"
               }</p>
               `;
+
+              // Mostrar archivos //
+              try {
+                const resArchivos = await fetch(
+                  apiUrl(`/api/archivos/${solicitud.idSolicitud}`)
+                );
+                
+                const archivos = await leerRespuesta(resArchivos);
+                if (archivos.length > 0) {
+                  
+                  const lista = document.createElement("div");
+                  const encabezado = document.createElement("strong");
+                  encabezado.textContent = "Archivos relacionados:";
+                  lista.appendChild(encabezado);
+                  
+                  archivos.forEach(a => {
+                    const link = document.createElement("a");
+                    link.href = apiUrl(`/api/archivos/descargar/${encodeURIComponent(a.nombre_archivo)}`);
+                    link.textContent = a.nombre_original;
+                    link.target = "_blank";
+                    link.classList.add("block", "text-blue-600", "underline", "mt-1");
+                    
+                    lista.appendChild(link);
+                  });
+                  
+                  info.appendChild(lista);
+                
+                } else {
+                  const sinArchivos = document.createElement("p");
+                  sinArchivos.textContent = "No hay archivos registrados.";
+                  
+                  info.appendChild(sinArchivos);
+                }
+              
+              } catch (error) { 
+                console.error("Error cargando archivos:", error);
+                
+                const errorArchivos = document.createElement("p");
+                errorArchivos.textContent = "No fue posible cargar los archivos.";
+                
+                info.appendChild(errorArchivos);
+              }
               
               panel.classList.remove("hidden");
             
@@ -115,8 +158,8 @@ function cargarSolicitudesPendientes() {
 
 // Cargar los colaboradores desde la base de datos //
 function cargarColaboradores() {
-  fetch("http://localhost:3000/api/usuarios/colaboradores")
-    .then(res => res.json())
+  fetch(apiUrl("/api/usuarios/colaboradores"))
+    .then(leerRespuesta)
     .then(data => {
       
       const contenedor = document.getElementById("listaColaboradores");
@@ -126,11 +169,14 @@ function cargarColaboradores() {
         
         const label = document.createElement("label");
         label.classList.add("flex", "items-center", "space-x-2");
-        label.innerHTML = `
-          <input type="radio" name="asignado" value="${colaborador.idUsuario}">
-          <span class="font-semibold text-black">
-            ${colaborador.usuario}
-          </span> `;
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "asignado";
+        input.value = colaborador.idUsuario;
+        const nombre = document.createElement("span");
+        nombre.classList.add("font-semibold", "text-black");
+        nombre.textContent = colaborador.usuario;
+        label.append(input, nombre);
 
         contenedor.appendChild(label);
       });
@@ -161,7 +207,7 @@ async function asignarSolicitud() {
   const idUsuario = parseInt(seleccionado.value);
   try {
     const respuesta = await fetch(
-      "http://localhost:3000/api/solicitudes/asignar",
+      apiUrl("/api/solicitudes/asignar"),
       {
         method: "POST",
         headers: {
@@ -176,11 +222,7 @@ async function asignarSolicitud() {
       }
     );
 
-    const data = await respuesta.json();
-    if (!respuesta.ok) {
-      mostrarMensajeSistema(data.mensaje || "Error al asignar solicitud","error");
-      return;
-    }
+    const data = await leerRespuesta(respuesta);
 
     // Cerrar el panel //
     document.getElementById("panelDetalle").classList.add("hidden");

@@ -17,8 +17,12 @@ export function mostrarRolEnHeader() {
   let nombre = "";
 
   if (usuarioGuardado) {
-    const usuario = JSON.parse(usuarioGuardado);
-    nombre = usuario.usuario;
+    try {
+      const usuario = JSON.parse(usuarioGuardado);
+      nombre = usuario?.usuario || "";
+    } catch {
+      // Un valor inválido en localStorage no debe bloquear la vista.
+    }
   }
 
   let textoRol = "";

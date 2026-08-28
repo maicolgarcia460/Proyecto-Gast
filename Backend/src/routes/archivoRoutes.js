@@ -26,7 +26,11 @@ router.get("/descargar/:nombreGuardado", (req, res) => {
     }
 
     const nombreOriginal = results[0].nombre_original;
-    res.download(rutaArchivo, nombreOriginal);
+    res.download(rutaArchivo, nombreOriginal, (error) => {
+      if (error && !res.headersSent) {
+        res.status(404).send("Archivo no encontrado");
+      }
+    });
   });
 });
 

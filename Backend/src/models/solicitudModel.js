@@ -1,9 +1,15 @@
 const db = require('../config/dataBase');
+const { ejecutarEnTransaccion } = require('../config/dataBase');
 
 class SolicitudModel {
 
   // Creación de una solicitud //
-  static crear(data, callback) {
+  static crear(data, archivo, callback) {
+    if (typeof archivo === "function") {
+      callback = archivo;
+      archivo = null;
+    }
+    
     const sql = `
       INSERT INTO solicitud 
       (nombre, descripcion, area, tipo_trabajo, prioridad, tiempo_estimado, fecha_de_entrega, idUsuario)
@@ -21,27 +27,27 @@ class SolicitudModel {
       data.idUsuario
     ];
 
-    db.query(sql, valores, (err, result) => {
-    if (err) {
-      return callback(err);
-    }
+    ejecutarEnTransaccion(async (conexion) => {
+      const [result] = await conexion.execute(sql, valores);
+      const idSolicitud = result.insertId;
+      await conexion.execute(
+        `INSERT INTO estado_solicitud (idSolicitud, estado, fecha_cambio, comentario)
+         VALUES (?, 'pendiente', NOW(), 'Solicitud creada')`,
+        [idSolicitud]
+      );
 
-    const idSolicitud = result.insertId;
-    const sqlEstado = `
-      INSERT INTO estado_solicitud
-      (idSolicitud, estado, fecha_cambio, comentario)
-      VALUES (?, 'pendiente', NOW(), 'Solicitud creada')
-    `;
-
-    db.query(sqlEstado, [idSolicitud], (err2, result2) => {
-      if (err2) {
-        return callback(err2);
+      if (archivo) {
+        await conexion.execute(
+          `INSERT INTO archivo
+           (idSolicitud, nombre_archivo, nombre_original, tipo_archivo, version, fecha_subida)
+           VALUES (?, ?, ?, ?, ?, NOW())`,
+          [idSolicitud, archivo.filename, archivo.originalname, archivo.mimetype, "1.0"]
+        );
       }
 
-      callback(null, result);
-    });
-  });
-}
+      return result;
+    }).then((result) => callback(null, result)).catch(callback);
+  }
 
   // Obtencion de una solicitud //
   static obtener(callback) {
@@ -124,18 +130,14 @@ class SolicitudModel {
     VALUES (?, ?, NOW(), ?,?)
    `;
 
-   db.query(sqlAsignar, [idSolicitud, idUsuario, observaciones,prioridad_jefe], (err) => {
-    if (err) return callback(err);
-
-    const sqlEstado = `
-      UPDATE estado_solicitud
-      SET estado = 'asignada',
-          fecha_cambio = NOW()
-      WHERE idSolicitud = ?
-    `;
-
-    db.query(sqlEstado, [idSolicitud], callback);
-   });
+   ejecutarEnTransaccion(async (conexion) => {
+    await conexion.execute(sqlAsignar, [idSolicitud, idUsuario, observaciones, prioridad_jefe]);
+    await conexion.execute(
+      `INSERT INTO estado_solicitud (idSolicitud, estado, fecha_cambio, comentario)
+       VALUES (?, 'asignada', NOW(), ?)`,
+      [idSolicitud, observaciones || null]
+    );
+   }).then(() => callback(null)).catch(callback);
   }
 
   // Obtener solicitudes asignadas por colaboradores //

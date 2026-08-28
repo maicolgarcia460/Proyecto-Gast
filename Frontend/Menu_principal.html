@@ -35,54 +35,54 @@
     </div>
   </nav>
 
-  <main 
-   class=" flex flex-1 px-10 py-10 justify-between">
+  <main class="home-dashboard">
 
   <!-- Tarjetas del menu -->
-    <div class="flex-5 grid grid-cols-3 gap-10 text-center">
+    <section class="home-cards" aria-label="Módulos del sistema">
       <a id="Tsolicitudes" href="Registrar_solicitud.html" class="block">
-        <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
-          <img src="assets/img/SP.png" alt="Solicitudes en curso" class="mx-auto w-40 h-40 mb-20" />
-          <h2 class="font-semibold text-2xl">Solicitudes en curso</h2>
+        <div class="home-card">
+          <img src="assets/img/SP.png" alt="Solicitudes en curso" class="home-card__image" />
+          <h2 class="home-card__title">Solicitudes en curso</h2>
         </div>
       </a>
 
       <a id="Taprobar" href="Aprobar_solicitud.html" class="block">
-        <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
-          <img src="assets/img/SPA.png" class="mx-auto w-40 h-40 mb-20" />
-          <h2 class="font-semibold text-2xl">Solicitudes pendientes por aprobar</h2>
+        <div class="home-card">
+          <img src="assets/img/SPA.png" alt="Solicitudes pendientes por aprobar" class="home-card__image" />
+          <h2 class="home-card__title">Solicitudes pendientes por aprobar</h2>
         </div>
       </a>
       
       <a id="Tasignar" href="Asignar_solicitud.html" class="block">
-        <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
-          <img src="assets/img/SPA.png" class="mx-auto w-40 h-40 mb-20" />
-          <h2 class="font-semibold text-2xl">Solicitudes pendientes por asignar</h2>
+        <div class="home-card">
+          <img src="assets/img/SPA.png" alt="Solicitudes pendientes por asignar" class="home-card__image" />
+          <h2 class="home-card__title">Solicitudes pendientes por asignar</h2>
         </div>
       </a>
       
       <a id="Testadisticas" href="Modulo_estadisticas.html" class="block">
-        <div class="bg-[#1E88E5]/25 w-85 h-60 p-8 rounded-2xl shadow hover:shadow-lg transition">
-          <img src="assets/img/EST.png" class="mx-auto w-40 h-40 mb-20" />
-          <h2 class="font-semibold text-2xl">Estadísticas</h2>
+        <div class="home-card">
+          <img src="assets/img/EST.png" alt="Estadísticas" class="home-card__image" />
+          <h2 class="home-card__title">Estadísticas</h2>
         </div>
       </a>
-    </div> 
+    </section>
 
-    <div class="flex items-center gap-10">
+    <aside class="home-sidebar">
 
     <!-- Línea divisoria -->
-    <div class="h-[65vh] border-l-2 border-gray-300"></div>
+    <div class="home-sidebar__divider" aria-hidden="true"></div>
 
     <!-- sección derecha -->
-    <div class="flex flex-col items-center justify-center">
-      <img src="assets/img/IMG_PLANO.png" class="rounded-2xl w-64 h-96 object-cover mb-4 shadow">
+    <div class="home-sidebar__content">
+      <img src="assets/img/IMG_PLANO.png" alt="Plano de trabajo" class="home-sidebar__image">
       <div class="flex space-x-2 mb-6">
         <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
         <div class="w-2 h-2 bg-gray-200 rounded-full"></div>
       </div>
-      <button id="btnCerrarSesion" class="bg-[#1E88E5] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#1E88E5]/50 transition absolute bottom-6 right-6 shadow-md"> Cerrar sesión </button>
+      <button id="btnCerrarSesion" class="logout-button">Cerrar sesión</button>
     </div>
+    </aside>
   </main>
 
 <script type="module" src="js/Menu_principal.js"></script>

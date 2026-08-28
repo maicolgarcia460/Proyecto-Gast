@@ -1,12 +1,13 @@
 import { mostrarRolEnHeader, aplicarPermisos } from "./Roles.js";
 import { mostrarMensajeSistema, mostrarConfirmacion } from "./Mensaje_exitoso.js";
-
+import { apiUrl, escaparHtml, leerRespuesta } from "./api.js";
 
 let idSolicitudEditando = null;
 let idSolicitudActual = null;
 let textoBusqueda = "";
 let tabActiva = "pendientes";
 let tieneBloqueo = 0;
+let temporizadorBusqueda;
 
 document.addEventListener("DOMContentLoaded", () => {
   
@@ -19,9 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Buscador //
   const inputBuscar = document.getElementById("inputBuscar");
   if (inputBuscar) {
-    inputBuscar.addEventListener("keyup", (e) => {
+    inputBuscar.addEventListener("input", (e) => {
       textoBusqueda = e.target.value.toLowerCase();
-      cargarSolicitudes();
+      clearTimeout(temporizadorBusqueda);
+      temporizadorBusqueda = setTimeout(cargarSolicitudes, 250);
     });
   }
 
@@ -35,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const formularioSolicitud = document.getElementById("formularioSolicitud"); 
   if (botonagregar && formularioSolicitud) {
     botonagregar.addEventListener("click", () => {
+      restablecerFormularioSolicitud();
       formularioSolicitud.classList.remove("hidden");
     });
   }
@@ -42,9 +45,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const botoncerrarformulario = document.getElementById("botoncerrarformulario");
   if (botoncerrarformulario && formularioSolicitud) {
     botoncerrarformulario.addEventListener("click", () => {
-      formularioSolicitud.classList.add("hidden");
+      restablecerFormularioSolicitud();
     });
   }
+
+  const inputArchivoSolicitud = document.getElementById("inputArchivoSolicitud");
+  const btnSubirArchivoSolicitud = document.getElementById("btnSubirArchivoSolicitud");
+  const nombreArchivoSolicitud = document.getElementById("nombreArchivoSolicitud");
+  btnSubirArchivoSolicitud?.addEventListener("click", () => inputArchivoSolicitud?.click());
+  inputArchivoSolicitud?.addEventListener("change", () => {
+    nombreArchivoSolicitud.textContent = inputArchivoSolicitud.files[0]?.name || "";
+  });
   
   // Control de menu //
   document.querySelectorAll("[data-menu]").forEach(boton => {
@@ -64,14 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Botón para generar el PDF //
-  document.getElementById("btnGenerarPDF").addEventListener("click", () => {
+  document.getElementById("btnGenerarPDF")?.addEventListener("click", () => {
 
   if (!idSolicitudActual) {
     mostrarMensajeSistema("No hay solicitud seleccionada", "error");return;
   }
 
     // Abrir el PDF //
-    window.open(`http://localhost:3000/api/reportes/${idSolicitudActual}`, "_blank");
+    window.open(apiUrl(`/api/reportes/${idSolicitudActual}`), "_blank");
 
     mostrarMensajeSistema("Reporte generado correctamente", "exito");
   });
@@ -86,8 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
     idSolicitudActual = id;
     
     try {
-      const response = await fetch(`http://localhost:3000/api/solicitudes/${id}`);
-      const solicitud = await response.json();
+      const response = await fetch(apiUrl(`/api/solicitudes/${id}`));
+      const solicitud = await leerRespuesta(response);
 
       const panel = document.getElementById("panelDetalle");
       const titulo = document.getElementById("tituloSolicitud");
@@ -98,10 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo.textContent = solicitud.nombre;
         
         info.innerHTML = `
-        <p><b>Descripción:</b> ${solicitud.descripcion}</p>
-        <p><b>Área:</b> ${solicitud.area}</p>
-        <p><b>Tipo de trabajo:</b> ${solicitud.tipo_trabajo}</p>
-        <p><b>Prioridad:</b> ${solicitud.prioridad}</p>
+        <p><b>Descripción:</b> ${escaparHtml(solicitud.descripcion)}</p>
+        <p><b>Área:</b> ${escaparHtml(solicitud.area)}</p>
+        <p><b>Tipo de trabajo:</b> ${escaparHtml(solicitud.tipo_trabajo)}</p>
+        <p><b>Prioridad:</b> ${escaparHtml(solicitud.prioridad)}</p>
         <p><b>Fecha de entrega:</b> ${
           solicitud.fecha_de_entrega
             ? solicitud.fecha_de_entrega.split("T")[0]
@@ -119,8 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  let archivoSeleccionado = null;
-
   const inputArchivo = document.getElementById("inputArchivo");
   const btnSubirArchivo = document.getElementById("btnSubirArchivo");
   
@@ -133,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Guardar archivo seleccionado //
     inputArchivo.addEventListener("change", (e) => {
-      archivoSeleccionado = e.target.files[0];
+      const archivoSeleccionado = e.target.files[0];
       
       if (archivoSeleccionado) {
         btnSubirArchivo.textContent = "Archivo: " + archivoSeleccionado.name;
@@ -150,7 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const porcentaje = document.getElementById("porcentaje").value;
       const observaciones = document.getElementById("observaciones").value;
       const detalleBloqueo = document.getElementById("detalleBloqueo").value;
-      const archivoInput = document.getElementById("archivoInput");
       const formData = new FormData();
 
       formData.append("idSolicitud", idSolicitudActual);
@@ -164,18 +172,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       try {
-        const response = await fetch("http://localhost:3000/api/avances", {
+        const response = await fetch(apiUrl("/api/avances"), {
           method: "POST",
           body: formData
         });
         
-        const result = await response.json();
-        if (!response.ok) {
-        mostrarMensajeSistema(
-          result.mensaje || "Error al guardar el avance","error"
-        );
-        return;
-      }
+        const result = await leerRespuesta(response);
       
       mostrarMensajeSistema(
         result.mensaje || "Avance registrado correctamente","exito"
@@ -248,13 +250,20 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  document.getElementById("tabPendientes")?.addEventListener("click", () => cambiarTab("pendientes"));
+  document.getElementById("tabProceso")?.addEventListener("click", () => cambiarTab("proceso"));
+  document.getElementById("tabCompletado")?.addEventListener("click", () => cambiarTab("completado"));
+  document.getElementById("cerrarDetalle")?.addEventListener("click", () => {
+    document.getElementById("detalleSolicitud")?.classList.add("hidden");
+  });
 });
 
 // historial de los avances //
 async function cargarHistorialAvances(idSolicitud) {
   try {
-    const response = await fetch(`http://localhost:3000/api/avances/${idSolicitud}`);
-    const avances = await response.json();
+    const response = await fetch(apiUrl(`/api/avances/${idSolicitud}`));
+    const avances = await leerRespuesta(response);
     const contenedor = document.getElementById("historialAvances");
     contenedor.innerHTML = "";
     avances.forEach(avance => {
@@ -267,7 +276,7 @@ async function cargarHistorialAvances(idSolicitud) {
       const div = document.createElement("div");
       div.classList.add("mb-2", "p-2", "bg-white", "rounded", "shadow");
       div.innerHTML = `
-        <strong>${porcentaje}%</strong> - ${avance.descripcion} <br>
+        <strong>${porcentaje}%</strong> - ${escaparHtml(avance.descripcion)} <br>
         <small>${fecha}</small>
         ${avance.tiene_bloqueo ? "<br><span class='text-red-600'>Bloqueo</span>" : ""}
       `;
@@ -285,7 +294,11 @@ const btnRegistrar = document.getElementById("btnRegistrar");
 if (btnRegistrar) {
   btnRegistrar.addEventListener("click", async () => {
     
-    const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+    const usuarioGuardado = JSON.parse(localStorage.getItem("usuario") || "null");
+    if (!usuarioGuardado?.idUsuario) {
+      mostrarMensajeSistema("La sesión no es válida", "error");
+      return;
+    }
     const fechaInput = document.getElementById("fecha_de_entrega").value;
     const fechaFormateada = fechaInput
       ? new Date(fechaInput).toISOString().split("T")[0]
@@ -302,24 +315,21 @@ if (btnRegistrar) {
     };
 
     try {
-      const metodo = idSolicitudEditando !== null ? "PUT" : "POST";
-      const url = idSolicitudEditando !== null
-        ? `http://localhost:3000/api/solicitudes/${idSolicitudEditando}`
-        : "http://localhost:3000/api/solicitudes";
+      const esEdicion = idSolicitudEditando !== null;
+      const metodo = esEdicion ? "PUT" : "POST";
+      const url = esEdicion
+        ? apiUrl(`/api/solicitudes/${idSolicitudEditando}`)
+        : apiUrl("/api/solicitudes");
+      const archivoSolicitud = document.getElementById("inputArchivoSolicitud")?.files[0];
       const response = await fetch(url, {
         method: metodo,
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
+        headers: esEdicion ? { "Content-Type": "application/json" } : undefined,
+        body: esEdicion ? JSON.stringify(data) : crearFormularioSolicitud(data, archivoSolicitud)
       });
 
-      const result = await response.json();
-      if (!response.ok) {
-        mostrarMensajeSistema(result.mensaje || "Error al procesar la solicitud","error"); return;
-      }
+      const result = await leerRespuesta(response);
 
-      idSolicitudEditando = null;
+      restablecerFormularioSolicitud();
       
       mostrarMensajeSistema(result.mensaje || "Solicitud registrada correctamente", "exito");
 
@@ -349,15 +359,15 @@ async function cargarSolicitudes() {
     let url = "";
 
     if (rol === "colaborador") {
-      url = `http://localhost:3000/api/solicitudes/colaborador/${idUsuario}`;
+      url = apiUrl(`/api/solicitudes/colaborador/${idUsuario}`);
     } else if (rol === "solicitante") {
-      url = `http://localhost:3000/api/solicitudes/solicitante/${idUsuario}`;
+      url = apiUrl(`/api/solicitudes/solicitante/${idUsuario}`);
     }else {
-      url = "http://localhost:3000/api/solicitudes";
+      url = apiUrl("/api/solicitudes");
     }
 
     const response = await fetch(url);
-    const solicitudes = await response.json();
+    const solicitudes = await leerRespuesta(response);
     const contenedor = document.getElementById("listaSolicitudes");
     const template = document.getElementById("templateSolicitud");
     contenedor.innerHTML = "";
@@ -384,18 +394,6 @@ async function cargarSolicitudes() {
         nombre.textContent += " - (Terminada y Aprobada)"; }
       if (solicitud.estado === "asignada" && solicitud.nombre_colaborador) {
         nombre.textContent += ` - (Asignada a colaborador ${solicitud.nombre_colaborador})`; }
-        
-        document.getElementById("tabPendientes")?.addEventListener("click", () => {
-          cambiarTab("pendientes");
-        });
-        
-        document.getElementById("tabProceso")?.addEventListener("click", () => {
-          cambiarTab("proceso");
-        });
-        
-        document.getElementById("tabCompletado")?.addEventListener("click", () => {
-          cambiarTab("completado");
-        });
         
         if (tabActiva === "pendientes") {
           
@@ -473,6 +471,50 @@ async function cargarSolicitudes() {
          : "Sin fecha";
          
          cargarHistorialAvances(solicitud.idSolicitud);
+         cargarArchivosSolicitud(solicitud.idSolicitud);
+
+         // función para mostrar archivos //
+         async function cargarArchivosSolicitud(idSolicitud) {
+          const contenedor = document.getElementById("archivosSolicitud");
+          if (!contenedor) return;
+          
+          try {
+            contenedor.innerHTML = "Cargando archivos...";
+            
+            const response = await fetch(
+              apiUrl(`/api/archivos/${idSolicitud}`)
+            );
+            const archivos = await leerRespuesta(response);
+            contenedor.innerHTML = "";
+            
+            if (!archivos || archivos.length === 0) {
+              contenedor.textContent = "No hay archivos adjuntos.";
+              return;
+            }
+            
+            const encabezado = document.createElement("strong");
+            encabezado.textContent = "Archivos relacionados:";
+            contenedor.appendChild(encabezado);
+
+            archivos.forEach((archivo) => {
+              const link = document.createElement("a");
+              link.href = apiUrl(
+                `/api/archivos/descargar/${encodeURIComponent(
+                  archivo.nombre_archivo
+                )}`
+              );
+              link.textContent = archivo.nombre_original;
+              link.target = "_blank";
+              link.classList.add("block", "text-blue-600", "underline", "mt-1");
+              
+              contenedor.appendChild(link);
+            });
+          
+          } catch (error) {
+            console.error("Error cargando archivos:", error);
+            contenedor.textContent = "Error al cargar los archivos.";
+          }
+        }
       });
 
       // Eliminar una solicitud //
@@ -487,13 +529,10 @@ async function cargarSolicitudes() {
           
           mostrarConfirmacion("¿Seguro que deseas eliminar esta solicitud?", async () => {
             try {
-              const response = await fetch(`http://localhost:3000/api/solicitudes/${solicitud.idSolicitud}`,
+              const response = await fetch(apiUrl(`/api/solicitudes/${solicitud.idSolicitud}`),
                 { method: "DELETE" } );
                 
-                const result = await response.json();
-                if (!response.ok) {
-                  throw new Error(result.mensaje || "Error al eliminar");
-                }
+                const result = await leerRespuesta(response);
                 
                 mostrarMensajeSistema(result.mensaje || "Solicitud eliminada correctamente",
                   "exito"
@@ -519,7 +558,11 @@ async function cargarSolicitudes() {
         btnEditar.addEventListener("click", () => {
           
           idSolicitudEditando = solicitud.idSolicitud;
-          
+          document.getElementById("tituloFormularioSolicitud").textContent = `Editar solicitud #${solicitud.idSolicitud}`;
+          const inputArchivoSolicitud = document.getElementById("inputArchivoSolicitud");
+          const nombreArchivoSolicitud = document.getElementById("nombreArchivoSolicitud");
+          if (inputArchivoSolicitud) inputArchivoSolicitud.value = "";
+          if (nombreArchivoSolicitud) nombreArchivoSolicitud.textContent = "";
           document.getElementById("formularioSolicitud").classList.remove("hidden");
           document.getElementById("nombre").value = solicitud.nombre;
           document.getElementById("descripcion").value = solicitud.descripcion;
@@ -550,17 +593,17 @@ async function cargarSolicitudes() {
           const info = document.getElementById("infoSolicitudReporte");
           
           try {
-            const response = await fetch(`http://localhost:3000/api/solicitudes/${idSolicitudActual}`);
-            const data = await response.json();
+            const response = await fetch(apiUrl(`/api/solicitudes/${idSolicitudActual}`));
+            const data = await leerRespuesta(response);
             
             if (panel && titulo && info) {
               titulo.textContent = `${data.nombre}`;
               
               info.innerHTML = `
-               <p><b>Descripción:</b> ${data.descripcion}</p>
-               <p><b>Área:</b> ${data.area}</p>
-               <p><b>Tipo de trabajo:</b> ${data.tipo_trabajo}</p>
-               <p><b>Prioridad:</b> ${data.prioridad}</p>
+               <p><b>Descripción:</b> ${escaparHtml(data.descripcion)}</p>
+               <p><b>Área:</b> ${escaparHtml(data.area)}</p>
+               <p><b>Tipo de trabajo:</b> ${escaparHtml(data.tipo_trabajo)}</p>
+               <p><b>Prioridad:</b> ${escaparHtml(data.prioridad)}</p>
                <p><b>Fecha de entrega:</b> ${
                 data.fecha_de_entrega
                 ? data.fecha_de_entrega.split("T")[0]
@@ -569,6 +612,48 @@ async function cargarSolicitudes() {
               <p><b>Estado:</b> ${data.estado}</p>
               <p><b>Colaborador:</b> ${data.nombre_colaborador || "Sin asignar"}</p>
               `;
+
+              // Mostrar archivos //
+              try {
+                const resArchivos = await fetch(
+                  apiUrl(`/api/archivos/${solicitud.idSolicitud}`)
+                );
+                
+                const archivos = await leerRespuesta(resArchivos);
+                if (archivos.length > 0) {
+                  
+                  const lista = document.createElement("div");
+                  const encabezado = document.createElement("strong");
+                  encabezado.textContent = "Archivos relacionados:";
+                  lista.appendChild(encabezado);
+                  
+                  archivos.forEach(a => {
+                    const link = document.createElement("a");
+                    link.href = apiUrl(`/api/archivos/descargar/${encodeURIComponent(a.nombre_archivo)}`);
+                    link.textContent = a.nombre_original;
+                    link.target = "_blank";
+                    link.classList.add("block", "text-blue-600", "underline", "mt-1");
+                    
+                    lista.appendChild(link);
+                  });
+                  
+                  info.appendChild(lista);
+                
+                } else {
+                  const sinArchivos = document.createElement("p");
+                  sinArchivos.textContent = "No hay archivos registrados.";
+                  
+                  info.appendChild(sinArchivos);
+                }
+              
+              } catch (error) { 
+                console.error("Error cargando archivos:", error);
+                
+                const errorArchivos = document.createElement("p");
+                errorArchivos.textContent = "No fue posible cargar los archivos.";
+                
+                info.appendChild(errorArchivos);
+              }
               
               panel.classList.remove("hidden");
             }
@@ -581,37 +666,57 @@ async function cargarSolicitudes() {
       contenedor.appendChild(clone);
     });
 
-    // cerrar el panel de informacion de la solicitud //
-    const cerrar = document.getElementById("cerrarDetalle");
-    if (cerrar) {
-      cerrar.addEventListener("click", () => {
-        document.getElementById("detalleSolicitud").classList.add("hidden");
-      });
-    }
-
-    function cambiarTab(tab) { tabActiva = tab;
-      
-      document.getElementById("tabPendientes")?.classList.remove("tab-activa");
-      document.getElementById("tabProceso")?.classList.remove("tab-activa");
-      document.getElementById("tabCompletado")?.classList.remove("tab-activa");
-      
-      if (tab === "pendientes") {
-        document.getElementById("tabPendientes")?.classList.add("tab-activa");
-      }
-      
-      if (tab === "proceso") {
-        document.getElementById("tabProceso")?.classList.add("tab-activa");
-      }
-      
-      if (tab === "completado") {
-        document.getElementById("tabCompletado")?.classList.add("tab-activa");
-      }
-      
-      cargarSolicitudes();
-    }
-  
   } catch (error) {
     console.error("Error al cargar solicitudes:", error);
   }
 }
+
+function cambiarTab(tab) {
+  tabActiva = tab;
+  const pestañas = {
+    pendientes: "tabPendientes",
+    proceso: "tabProceso",
+    completado: "tabCompletado"
+  };
+
+  Object.values(pestañas).forEach((id) =>
+    document.getElementById(id)?.classList.remove("tab-activa")
+  );
+  document.getElementById(pestañas[tab])?.classList.add("tab-activa");
+  cargarSolicitudes();
+}
+
+function crearFormularioSolicitud(data, archivo) {
+  const formulario = new FormData();
+  Object.entries(data).forEach(([clave, valor]) => formulario.append(clave, valor ?? ""));
+  if (archivo) formulario.append("archivo", archivo);
+  return formulario;
+}
+
+function obtenerFechaLocal() {
+  const hoy = new Date();
+  const año = hoy.getFullYear();
+  const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+  const dia = String(hoy.getDate()).padStart(2, "0");
+  return `${año}-${mes}-${dia}`;
+}
+
+function restablecerFormularioSolicitud() {
+  idSolicitudEditando = null;
+  ["nombre", "descripcion", "area", "tipo_trabajo", "tiempo_estimado", "fecha_de_entrega"].forEach((id) => {
+    const campo = document.getElementById(id);
+    if (campo) campo.value = "";
+  });
+  const prioridad = document.getElementById("prioridad");
+  if (prioridad) prioridad.value = "";
+  const fechaCreacion = document.getElementById("fecha_creacion");
+  if (fechaCreacion) fechaCreacion.value = obtenerFechaLocal();
+  const inputArchivo = document.getElementById("inputArchivoSolicitud");
+  if (inputArchivo) inputArchivo.value = "";
+  const nombreArchivo = document.getElementById("nombreArchivoSolicitud");
+  if (nombreArchivo) nombreArchivo.textContent = "";
+  document.getElementById("tituloFormularioSolicitud").textContent = "Nueva solicitud";
+  document.getElementById("formularioSolicitud")?.classList.add("hidden");
+}
+
 cargarSolicitudes();

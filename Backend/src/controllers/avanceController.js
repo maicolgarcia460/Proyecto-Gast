@@ -1,67 +1,32 @@
 const AvanceModel = require('../models/avanceModel');
-const ArchivoModel = require("../models/archivoModel");
+const { validarAvance } = require("../utils/validacion");
+const fs = require("fs");
+
+const eliminarArchivoTemporal = (archivo) => {
+  if (archivo?.path) fs.unlink(archivo.path, () => {});
+};
 
 // Creación de un avance //
 const crearAvance = (req, res) => {
   const archivo = req.file;
   const data = req.body;
+  const errorValidacion = validarAvance(data);
+  if (errorValidacion) {
+    eliminarArchivoTemporal(archivo);
+    return res.status(400).json({ mensaje: errorValidacion });
+  }
 
-  AvanceModel.crear(data, (error,) => {
+  AvanceModel.registrar(data, archivo, (error, estaFinalizado) => {
     if (error) {
+      eliminarArchivoTemporal(archivo);
       console.log("ERROR AVANCE:", error);
       return res.status(500).json({ mensaje: "Error al guardar avance" });
     }
 
-    // guardar el archivo //
-    const guardarArchivo = (callback) => {
-
-      if (!archivo) {
-        return callback();
-      }
-
-      const dataArchivo = {
-        idSolicitud: data.idSolicitud,
-        nombre_archivo: archivo.filename,
-        nombre_original: archivo.originalname,
-        tipo_archivo: archivo.mimetype,
-        version: "1.0"
-      };
-
-      ArchivoModel.crear(dataArchivo, (errArchivo) => {
-        if (errArchivo) {
-          return res.status(500).json({
-            mensaje: "Avance guardado, pero error registrando archivo"
-          });
-        }
-        callback();
-      });
-    };  
-    guardarArchivo(() => {
-
-    // Extración porcentaje desde la descripción //
-    const match = data.descripcion.match(/(\d+)%/);
-    const porcentaje = match ? parseInt(match[1]) : 0;
-
-    // Si es 100%, cambiar el estado a revisión //
-    if (data.descripcion.includes("100%")) {
-      
-      const idSolicitante = data.idUsuario;
-      const idJefe = 1;
-
-      AvanceModel.marcarEnRevision(data.idSolicitud, idSolicitante, idJefe, (errEstado) => {
-        
-        if (errEstado) {
-          return res.status(500).json({ mensaje: "Error cambiando estado" });
-        }
-
-        return res.status(200).json({ mensaje: "Avance 100% registrado y enviado a revisión" });
-      }
-        );
-      
-    } else {
-      return res.status(200).json({ mensaje: "Avance registrado correctamente" });
-    }
-    });
+    const mensaje = estaFinalizado
+      ? "Avance 100% registrado y enviado a revisión"
+      : "Avance registrado correctamente";
+    return res.status(200).json({ mensaje });
   });
 };
 

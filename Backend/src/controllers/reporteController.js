@@ -13,6 +13,21 @@ const generarPDF = (req, res) => {
     }
 
     const solicitud = results[0];
+
+    // Obtener archivos relacionados con la solicitud //
+    const sqlArchivos = `
+    SELECT nombre_archivo, nombre_original, tipo_archivo
+    FROM archivo
+    WHERE idSolicitud = ?
+    ORDER BY fecha_subida ASC
+    `;
+    
+    db.query(sqlArchivos, [id], (errorArchivos, archivos) => {
+      if (errorArchivos) {
+        console.error("Error obteniendo archivos:", errorArchivos);
+        archivos = [];
+      }
+
     const doc = new PDFDocument({ margin: 40 });
 
     res.setHeader("Content-Type", "application/pdf");
@@ -56,7 +71,7 @@ const generarPDF = (req, res) => {
 
     // Tarjeta con información //
     const cardY = doc.y;
-    const cardHeight = 150;
+    const cardHeight = 150 + (archivos.length * 8) + 43;
     doc
       .roundedRect(40, cardY, doc.page.width - 80, cardHeight, 8)
       .fillAndStroke("#F4F6F8", "#D0D5DD");
@@ -82,6 +97,48 @@ const generarPDF = (req, res) => {
         ? new Date(solicitud.fecha_de_entrega).toISOString().split("T")[0]
         : "No definida"
     );
+
+    // Archivos relacionados //
+    y += 5;
+    
+    if (!archivos || archivos.length === 0) {
+      
+      // Si no hay archivos, mostrar solamente el mensaje //
+
+      doc
+     .fontSize(10)
+     .font("Domine-Bold")
+     .fillColor("black")
+     .text(
+      "No hay archivos relacionados.", 55, y);
+    
+    } else {
+      
+      // Mostrar encabezado, si existen archivos //
+      doc
+     .fontSize(10)
+     .font("Domine_Bold")
+     .fillColor("black")
+     .text(
+      "Archivos relacionados:", 55, y );
+      
+      y += 18;
+      
+      archivos.forEach((archivo) => {
+        const nombreArchivo =
+        archivo.nombre_original ||
+        archivo.nombre_archivo;
+        
+        doc
+        .fontSize(10)
+        .font("Domine-Bold")
+        .fillColor("#1E88E5")
+        .text(
+          `•  ${nombreArchivo}`, 55, y);
+          
+          y += 18;
+      });
+    }
 
     // Franja de historial //
     const historialY = cardY + cardHeight + 30;
@@ -141,6 +198,7 @@ const generarPDF = (req, res) => {
     
       db.query(sqlInsertReporte, [id, "Reporte general", "pdf"]);
       doc.end();
+    });
     });
   });
 };

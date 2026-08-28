@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const contenedor = document.getElementById("mensajeTexto");
   const tarjeta = document.querySelector(".bg-white");
-  const icono = tarjeta.querySelector("div");
+  const icono = tarjeta?.querySelector("div");
 
   if (contenedor && mensaje) {
     contenedor.textContent = mensaje;

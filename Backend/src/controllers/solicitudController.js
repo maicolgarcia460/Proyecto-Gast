@@ -1,13 +1,27 @@
 const SolicitudModel = require('../models/solicitudModel');
+const { validarSolicitud, validarAsignacion } = require("../utils/validacion");
+const fs = require("fs");
+
+const eliminarArchivoTemporal = (archivo) => {
+  if (archivo?.path) fs.unlink(archivo.path, () => {});
+};
 
 // Creación de solicitudes //
 const crearSolicitud = (req, res) => {
   const data = req.body;
+  const archivo = req.file;
+  const errorValidacion = validarSolicitud(data);
+  if (errorValidacion) {
+    eliminarArchivoTemporal(archivo);
+    return res.status(400).json({ mensaje: errorValidacion });
+  }
 
-  SolicitudModel.crear(data, (error, result) => {
+  SolicitudModel.crear(data, archivo, (error, result) => {
     if (error) {
+      eliminarArchivoTemporal(archivo);
       return res.status(500).json(error);
     }
+
     res.json({
       mensaje: "Solicitud registrada correctamente"
     });
@@ -40,6 +54,8 @@ const eliminarSolicitud = (req, res) => {
 const actualizarSolicitud = (req, res) => {
   const { id } = req.params;
   const data = req.body;
+  const errorValidacion = validarSolicitud(data, false);
+  if (errorValidacion) return res.status(400).json({ mensaje: errorValidacion });
 
   SolicitudModel.actualizar(id, data, (error, result) => {
     if (error) {
@@ -52,6 +68,8 @@ const actualizarSolicitud = (req, res) => {
 // Asignación de solicitudes //
 const asignarSolicitud = (req, res) => {
   const { idSolicitud, idUsuario, observaciones, prioridad_jefe } = req.body;
+  const errorValidacion = validarAsignacion(req.body);
+  if (errorValidacion) return res.status(400).json({ mensaje: errorValidacion });
 
   SolicitudModel.asignarSolicitud(idSolicitud, idUsuario, observaciones, prioridad_jefe, (error) => {
     if (error) {

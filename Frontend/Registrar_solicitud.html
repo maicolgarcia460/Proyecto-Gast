@@ -94,15 +94,15 @@
       <p><strong>Tiempo estimado:</strong> <span id="d_tiempo"></span></p>
       <p><strong>Fecha entrega:</strong> <span id="d_fecha"></span></p>
       
-      <button id="cerrarDetalle" class="mt-4 bg-[#1E88E5] text-white px-4 py-2 rounded"> Cerrar </button>
-      
+      <div id="archivosSolicitud" class="mt-4 text-sm text-black"></div>
       <div id="historialAvances" class="mt-4 text-sm text-black"></div>
+      <button id="cerrarDetalle" class="mt-4 bg-[#1E88E5] text-white px-4 py-2 rounded"> Cerrar </button>
     </section>
 
   <!-- Formulario de registro -->
-    <section id="formularioSolicitud" class="hidden absolute top-5 left-10 w-[80%] bg-[#E5E5E5] border-4 border-black rounded-2xl p-8 overflow-y-auto shadow-lg">
-      <h2 class="text-2xl font-bold mb-6">Solicitud #</h2>
-      <div class="grid grid-cols-2 gap-6"><div>
+    <section id="formularioSolicitud" class="request-form hidden" role="dialog" aria-modal="true" aria-labelledby="tituloFormularioSolicitud">
+      <h2 id="tituloFormularioSolicitud" class="text-2xl font-bold mb-6">Nueva solicitud</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div>
         
         <label class="font-semibold block mb-1">Fecha de creación*</label>
         <input id="fecha_creacion" type="date" class="w-full rounded-xl bg-[#1E88E5]/30 p-2">
@@ -135,9 +135,10 @@
           <option value="Baja">Baja</option>
         </select>
 
-        <div class="mt-8 flex items-center space-x-2">
-          <i class="fa-solid fa-upload text-2xl"></i>
-          <span class="font-bold">Subir archivo ↑↑↑</span>
+        <div class="mt-8">
+          <input type="file" id="inputArchivoSolicitud" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" class="hidden">
+          <button id="btnSubirArchivoSolicitud" type="button" class="font-bold text-left">Subir archivo ↑↑↑</button>
+          <p id="nombreArchivoSolicitud" class="mt-2 text-sm text-gray-700" aria-live="polite"></p>
         </div>
 
         <div class="flex space-x-3 mt-8">
@@ -167,7 +168,7 @@
     </div>
 
   <!-- Panel para generar reporte -->
-    <div id="panelReporte" class="absolute top-40 right-[400px] w-[30%] bg-[#BFD3E6] border-4 border-black rounded-2xl p-4 shadow-md hidden">
+    <div id="panelReporte" class="modal-panel hidden">
       <div class="flex justify-between items-center mb-4">
         <h2 class="font-bold text-lg text-black">Generar reporte:</h2>
         <button data-cerrar="panelReporte" class="text-gray-600 text-2xl font-bold hover:text-gray-800">&times;</button>
@@ -183,7 +184,7 @@
     </div>
 
   <!-- Panel para subir avances -->
-    <div id="panelDetalle" class="absolute top-40 right-[400px] w-[30%] bg-[#BFD3E6] border-4 border-black rounded-2xl p-4 shadow-md hidden">
+    <div id="panelDetalle" class="modal-panel hidden">
       <div class="flex justify-between items-center mb-4">
         <h3 class="font-bold text-lg text-black">Subir Avance:</h3>
         <button data-cerrar="panelDetalle" class="text-gray-600 text-2xl font-bold hover:text-gray-800">&times; </button>
@@ -199,7 +200,7 @@
     </div>
 
   <!-- Parte derecha -->
-    <div id="formularioAvance" class=" mt-8 hidden bg-gray-200 rounded-2xl p-4 w-[70%] border-2 border-black shadow text-center relative mx-auto">
+    <div id="formularioAvance" class="mt-8 hidden bg-gray-200 rounded-2xl p-4 w-full border-2 border-black shadow text-center relative mx-auto">
       <button id="btnCerrarAvance" class="absolute top-2 right-3 text-black font-bold text-lg hover:text-red-600">×</button>
 
   <!-- Porcentajes -->
