@@ -93,9 +93,11 @@
       <p><strong>Prioridad:</strong> <span id="d_prioridad"></span></p>
       <p><strong>Tiempo estimado:</strong> <span id="d_tiempo"></span></p>
       <p><strong>Fecha entrega:</strong> <span id="d_fecha"></span></p>
-      
+      <p><strong>Prioridad de asignación del jefe:</strong> <span id="d_prioridad_jefe"></span></p>
+      <p><strong>Observación de asignación:</strong> <span id="d_observacion_prioridad"></span></p>
       <div id="archivosSolicitud" class="mt-4 text-sm text-black"></div>
       <div id="historialAvances" class="mt-4 text-sm text-black"></div>
+      <p><strong>Motivo de aprobación o rechazo:</strong> <span id="d_comentario_aprobacion"></span></p>
       <button id="cerrarDetalle" class="mt-4 bg-[#1E88E5] text-white px-4 py-2 rounded"> Cerrar </button>
     </section>
 
@@ -147,6 +149,7 @@
         </div>
       </div>
       </div>
+      <p id="mensajeFormulario" class="mensaje-formulario"></p>
     </section>
 
   <!-- Botón agregar -->
@@ -206,7 +209,7 @@
   <!-- Porcentajes -->
       <label class="font-bold text-black block mb-1 text-sm">Porcentaje del trabajo:</label>
       <div class="flex items-center gap-3">
-        <input id="porcentaje" type="range" min="0" max="100" value="10" class="w-full accent-blue-500 cursor-pointer">
+        <input id="porcentaje" type="range" min="0" max="100" value="0" class="w-full accent-blue-500 cursor-pointer">
         <span id="valorPorcentaje" class="font-semibold text-black w-12 text-right"> 0% </span>
       </div>
 

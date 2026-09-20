@@ -72,15 +72,44 @@ class SolicitudModel {
       LIMIT 1
     ) AS estado,
 
-      -- Nombre del colaborador
-      (
-        SELECT u.usuario
-        FROM solicitud_asignada sa
-        INNER JOIN usuario u ON sa.idUsuario = u.idUsuario
-        WHERE sa.idSolicitud = s.idSolicitud
-        ORDER BY sa.fecha_asignacion DESC
-        LIMIT 1
-      ) AS nombre_colaborador
+    -- Nombre del colaborador
+    (
+      SELECT u.usuario
+      FROM solicitud_asignada sa
+      INNER JOIN usuario u ON sa.idUsuario = u.idUsuario
+      WHERE sa.idSolicitud = s.idSolicitud
+      ORDER BY sa.fecha_asignacion DESC
+      LIMIT 1
+    ) AS nombre_colaborador,
+
+    -- Prioridad asignada por el jefe
+    (
+      SELECT sa.prioridad_jefe
+      FROM solicitud_asignada sa
+      WHERE sa.idSolicitud = s.idSolicitud
+      ORDER BY sa.fecha_asignacion DESC
+      LIMIT 1
+    ) AS prioridad_jefe,
+
+    -- Comentario de la aprobación o rechazo
+    (
+      SELECT a.comentario
+      FROM aprobacion a
+      WHERE a.idSolicitud = s.idSolicitud
+        AND a.comentario IS NOT NULL
+        AND a.comentario <> ''
+      ORDER BY a.fecha_aprobacion DESC
+      LIMIT 1
+    ) AS comentario_aprobacion,
+
+    -- Observación de la prioridad asignada por el jefe
+    (
+      SELECT sa.observaciones
+      FROM solicitud_asignada sa
+      WHERE sa.idSolicitud = s.idSolicitud
+      ORDER BY sa.fecha_asignacion DESC
+      LIMIT 1
+    ) AS observacion_prioridad
 
      FROM solicitud s
    `;
@@ -161,7 +190,36 @@ class SolicitudModel {
       WHERE a.idSolicitud = s.idSolicitud
       ORDER BY a.fecha_avance DESC
       LIMIT 1
-    ) AS ultimo_avance
+    ) AS ultimo_avance,
+
+    -- Prioridad asignada por el jefe
+    (
+      SELECT sa.prioridad_jefe
+      FROM solicitud_asignada sa
+      WHERE sa.idSolicitud = s.idSolicitud
+      ORDER BY sa.fecha_asignacion DESC
+      LIMIT 1
+    ) AS prioridad_jefe,
+
+    -- Comentario de la aprobación o rechazo
+    (
+      SELECT a.comentario
+      FROM aprobacion a
+      WHERE a.idSolicitud = s.idSolicitud
+        AND a.comentario IS NOT NULL
+        AND a.comentario <> ''
+      ORDER BY a.fecha_aprobacion DESC
+      LIMIT 1
+    ) AS comentario_aprobacion,
+
+    -- Observación de la prioridad asignada por el jefe
+    (
+      SELECT sa.observaciones
+      FROM solicitud_asignada sa
+      WHERE sa.idSolicitud = s.idSolicitud
+      ORDER BY sa.fecha_asignacion DESC
+      LIMIT 1
+    ) AS observacion_prioridad
 
     FROM solicitud s
     INNER JOIN solicitud_asignada sa
@@ -184,15 +242,44 @@ class SolicitudModel {
       LIMIT 1
     ) AS estado,
 
-      -- Nombre del colaborador
-      (
-        SELECT u.usuario
-        FROM solicitud_asignada sa
-        INNER JOIN usuario u ON sa.idUsuario = u.idUsuario
-        WHERE sa.idSolicitud = s.idSolicitud
-        ORDER BY sa.fecha_asignacion DESC
-        LIMIT 1
-      ) AS nombre_colaborador
+    -- Nombre del colaborador
+    (
+      SELECT u.usuario
+      FROM solicitud_asignada sa
+      INNER JOIN usuario u ON sa.idUsuario = u.idUsuario
+      WHERE sa.idSolicitud = s.idSolicitud
+      ORDER BY sa.fecha_asignacion DESC
+      LIMIT 1
+    ) AS nombre_colaborador,
+
+      -- Prioridad asignada por el jefe
+    (
+      SELECT sa.prioridad_jefe
+      FROM solicitud_asignada sa
+      WHERE sa.idSolicitud = s.idSolicitud
+      ORDER BY sa.fecha_asignacion DESC
+      LIMIT 1
+    ) AS prioridad_jefe,
+
+    -- Comentario de la aprobación o rechazo
+    (
+      SELECT a.comentario
+      FROM aprobacion a
+      WHERE a.idSolicitud = s.idSolicitud
+        AND a.comentario IS NOT NULL
+        AND a.comentario <> ''
+      ORDER BY a.fecha_aprobacion DESC
+      LIMIT 1
+    ) AS comentario_aprobacion,
+
+    -- Observación de la prioridad asignada por el jefe
+    (
+      SELECT sa.observaciones
+      FROM solicitud_asignada sa
+      WHERE sa.idSolicitud = s.idSolicitud
+      ORDER BY sa.fecha_asignacion DESC
+      LIMIT 1
+    ) AS observacion_prioridad
 
     FROM solicitud s
     WHERE s.idUsuario = ?

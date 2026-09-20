@@ -327,7 +327,21 @@ if (btnRegistrar) {
         body: esEdicion ? JSON.stringify(data) : crearFormularioSolicitud(data, archivoSolicitud)
       });
 
-      const result = await leerRespuesta(response);
+      const result = await response.json();
+      if (!response.ok) {
+        const mensajeFormulario = document.getElementById("mensajeFormulario");
+        
+      if (mensajeFormulario) { mensajeFormulario.textContent =
+        result.mensaje || "Formulario incompleto"; mensajeFormulario.style.display = "block";
+      }
+
+       return;
+      }
+      
+      const mensajeFormulario = document.getElementById("mensajeFormulario");
+      if (mensajeFormulario) { mensajeFormulario.textContent = "";
+        mensajeFormulario.style.display = "none";
+      }
 
       restablecerFormularioSolicitud();
       
@@ -381,17 +395,19 @@ async function cargarSolicitudes() {
         }
 
       if (solicitud.estado === "en-revision") return;
-      if (solicitud.estado === "rechazada") return;
 
       const clone = template.content.cloneNode(true);
       const nombre = clone.querySelector(".nombre-solicitud");
       const esAprobada = solicitud.estado === "aprobada";
+      const esRechazada = solicitud.estado === "rechazada";
 
       nombre.textContent =
         `Solicitud #${solicitud.idSolicitud} - ${solicitud.nombre}`;
 
       if (solicitud.estado === "aprobada") {
         nombre.textContent += " - (Terminada y Aprobada)"; }
+      if (solicitud.estado === "rechazada") {
+        nombre.textContent += " - (Solicitud Rechazada)"; }
       if (solicitud.estado === "asignada" && solicitud.nombre_colaborador) {
         nombre.textContent += ` - (Asignada a colaborador ${solicitud.nombre_colaborador})`; }
         
@@ -408,7 +424,8 @@ async function cargarSolicitudes() {
         }
 
         if (tabActiva === "completado") {
-          if (solicitud.estado !== "aprobada") return;
+          if (solicitud.estado !== "aprobada" &&
+            solicitud.estado !== "rechazada") return;
         }
 
         // Calcular el porcentaje desde los avances //
@@ -433,7 +450,7 @@ async function cargarSolicitudes() {
 
       // Botón para avances //
       const btnAvance = clone.querySelector(".btn-avance");
-      if (rol === "jefe" || rol === "solicitante" || esAprobada) {
+      if (rol === "jefe" || rol === "solicitante" || esAprobada || esRechazada) {
         btnAvance?.remove(); }
           
       if (btnAvance) {
@@ -469,6 +486,9 @@ async function cargarSolicitudes() {
          solicitud.fecha_de_entrega
          ? solicitud.fecha_de_entrega.split("T")[0]
          : "Sin fecha";
+        document.getElementById("d_prioridad_jefe").textContent = solicitud.prioridad_jefe || "Sin asignación";
+        document.getElementById("d_comentario_aprobacion").textContent = solicitud.comentario_aprobacion || "Sin comentario";
+        document.getElementById("d_observacion_prioridad").textContent = solicitud.observacion_prioridad || "Sin observación";
          
          cargarHistorialAvances(solicitud.idSolicitud);
          cargarArchivosSolicitud(solicitud.idSolicitud);
@@ -520,7 +540,7 @@ async function cargarSolicitudes() {
       // Eliminar una solicitud //
       const btnEliminar = clone.querySelector(".btn-eliminar");
       
-      if (rol === "colaborador" || esAprobada) {
+      if (rol === "colaborador" || esAprobada || esRechazada) {
         btnEliminar?.remove(); 
       }
       
@@ -551,7 +571,7 @@ async function cargarSolicitudes() {
       // Editar una solicitud //
       const btnEditar = clone.querySelector(".btn-editar");
       
-      if (rol === "colaborador" || esAprobada) {
+      if (rol === "colaborador" || esAprobada || esRechazada) {
         btnEditar?.remove(); }
         
       if (btnEditar) {
@@ -580,7 +600,7 @@ async function cargarSolicitudes() {
       // Botón de generación de reportes //
       const btnReporte = clone.querySelector(".btn-reporte");
       
-      if (esAprobada) {
+      if (esAprobada || esRechazada) {
         btnReporte.remove(); }
         
       if (btnReporte) {

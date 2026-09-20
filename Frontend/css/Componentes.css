@@ -553,3 +553,11 @@
   .request-tabs { width: 100%; justify-content: space-between; gap: .5rem; }
   .request-list-item .nombre-solicitud { white-space: normal; }
 }
+
+.mensaje-formulario {
+  display: none;
+  color: #E53935;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 15px;
+}
