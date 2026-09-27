@@ -1,5 +1,6 @@
 require('./src/config/dataBase');
 
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -7,6 +8,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(path.resolve(__dirname, '../Frontend')));
 
 app.get('/', (req, res) => {
     res.send('Servidor funcionando correctamente');

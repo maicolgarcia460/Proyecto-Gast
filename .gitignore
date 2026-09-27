@@ -1,0 +1,30 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno y credenciales
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos temporales de Windows
+Thumbs.db
+Desktop.ini
+
+# Archivos temporales de VS Code
+.vscode/
+
+# Archivos temporales de Visual Studio
+.vs/
+
+# Base de datos con datos locales
+Docker/mysql/init/bd_gast.sql
+
+# Archivos temporales
+temp/
+tmp/

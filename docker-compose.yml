@@ -1,0 +1,52 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: gast-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "bd_gast"
+    ports:
+      - "3307:3306"  
+    volumes:
+      - gast_mysql_data:/var/lib/mysql
+      - ./Docker/mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - gast-network
+
+  node:
+    build:
+      context: .
+      dockerfile: Docker/node/Dockerfile
+    container_name: gast-node
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      DB_NAME: bd_gast
+      DB_CONNECTION_LIMIT: 10
+    depends_on:
+      - mysql
+    networks:
+      - gast-network
+
+  apache:
+    build:
+      context: .
+      dockerfile: Docker/apache/Dockerfile
+    container_name: gast-apache
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - node
+    networks:
+      - gast-network
+
+volumes:
+  gast_mysql_data:
+
+networks:
+  gast-network:
+    driver: bridge
