@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static(path.resolve(__dirname, '../Frontend')));
 
 app.get('/', (req, res) => {
-    res.send('Servidor funcionando correctamente');
+    res.sendFile(path.resolve(__dirname, '../Frontend/Inicio_sesion.html'));
 });
 
 // Inicio del servidor //
